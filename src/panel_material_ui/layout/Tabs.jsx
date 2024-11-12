@@ -22,17 +22,16 @@ export function render({ model }) {
       value={active}
       onChange={handleChange}
       orientation={orientation}
+      variant="scrollable"
+      scrollButtons="auto"
     >
       {names.map((label, index) => (
         <Tab key={index} label={label} />
       ))}
     </Tabs>
   )
-
-  console.log(active)
-
   return (
-    <Box>
+    <Box style={{ display: "flex", flexDirection: (location === "left" || location === "right") ? "row" : "column" }}  >
       { (location === "left" || location === "above") && tabs }
       <Box>
         {objects[active]}

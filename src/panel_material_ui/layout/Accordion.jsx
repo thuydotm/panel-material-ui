@@ -7,12 +7,21 @@ import Button from '@mui/material/Button';
 
 export function render({ model} ) {
   const objects = model.get_child("objects");
-  const [active] = model.useState("active");
+  const [active, setActive] = model.useState("active");
   const [names] = model.useState("_names");
   const [toggle] = model.useState("toggle");
 
-  const handle_expand = (index) => (event, newExpanded) => {
-    console.log(index, newExpanded)
+  const handle_expand = (index) => () => {
+    let newActive
+    if (active.includes(index)) {
+      newActive = active.filter((v) => v != index)
+    } else if (toggle) {
+      newActive = [index]
+    } else {
+      newActive = [...active]
+      newActive.push(index)
+    }
+    setActive(newActive)
   };
 
   return (
@@ -21,10 +30,10 @@ export function render({ model} ) {
 	return (
 	  <Accordion
 	    defaultExpanded={active.includes(index)}
+	    expanded={active.includes(index)}
 	    key={"accordion-"+index}
-	    onChange={handle_expand(index)}
 	  >
-	    <AccordionSummary expandIcon={<ExpandMoreIcon />}>{names[index]}</AccordionSummary>
+	    <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={handle_expand(index)}>{names[index]}</AccordionSummary>
 	    <AccordionDetails>{obj}</AccordionDetails>
 	  </Accordion>
 	)

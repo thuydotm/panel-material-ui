@@ -90,7 +90,6 @@ class Toggle(_ButtonBase):
     _esm = "ToggleButton.jsx"
 
 
-
 class ButtonIcon(_ButtonBase):
    """
     The `ButtonIcon` widget facilitates event triggering upon button clicks.

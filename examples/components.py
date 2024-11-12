@@ -85,7 +85,6 @@ spec = {
         ],
         'NamedListLike': [
             (Accordion, (), dict(objects=[('A', 'Some Text'), ('B', 'More text')], margin=10, active=[1])),
-            
             (Tabs, (['color', 'tabs_location'],), dict(objects=[('A', 'Some Text'), ('B', 'More text')], margin=10, active=1)),
         ]
     },
@@ -107,6 +106,7 @@ spec = {
             (Switch, (['color', 'disabled'],), dict(label='Switch me!', value=True)),
             (TextAreaInput, (['color', 'variant'], ['disabled']), dict(label='TextAreaInput')),
             (TextInput, (['color', 'variant'], ['disabled', 'error_state']), dict(label='TextInput')),
+            (ToggleIcon, (['color', 'value'],), dict(icon='favorite', active_icon='favorite-border')),
             (PasswordInput, (['color', 'variant'], ['disabled']), dict(label='PasswordInput'))
         ],
         'Selection': [
