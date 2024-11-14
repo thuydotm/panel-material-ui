@@ -1,3 +1,4 @@
+import inspect
 from itertools import product
 
 import panel as pn
@@ -24,6 +25,8 @@ def render_variant(component, variant, **kwargs):
     title = f'# {component.name}'
     if not variant:
         return pn.Column(title, component(**kwargs), name=component.name)
+    elif inspect.isfunction(variant):
+        return variant(component, **kwargs)
     values = []
     for p in variant:
         if isinstance(component.param[p], param.Integer):
@@ -77,21 +80,47 @@ def render_spec(spec, depth=0, label='main'):
     return tabs
 
 
+def render_openable(component, **kwargs):
+    close = Button(on_click=lambda _: backdrop.param.update(open=False), label='Close')
+    backdrop = component(CircularProgress(), close)
+    button = Button(on_click=lambda _: backdrop.param.update(open=True), label=f'Open {component.name}')
+    col = pn.Column(button, backdrop)
+    return col
+
 spec = {
     'Layouts': {
         'ListLike': [
+            (Alert, (['severity', 'variant'], ['closeable']), dict(title='Title', object='An alert message')),
             (Card, (['outlined', 'collapsed'], ['raised', 'collapsible']), dict(objects=['A', 'B', 'C'], title='A Card', margin=10)),
+            (Divider, (['orientation', 'variant'],), dict(objects=['Foo'], width=200, height=200)),
             (Paper, (['elevation'],), dict(objects=['A', 'B', 'C'], margin=10, styles={'padding': '1em'})),
         ],
         'NamedListLike': [
             (Accordion, (), dict(objects=[('A', 'Some Text'), ('B', 'More text')], margin=10, active=[1])),
             (Tabs, (['color', 'tabs_location'],), dict(objects=[('A', 'Some Text'), ('B', 'More text')], margin=10, active=1)),
+        ],
+        'Overlays': [
+            (Backdrop, (render_openable,), {}),
+            (Dialog, (render_openable,), {}),
+            (Modal, (render_openable,), {}),
         ]
     },
     'Indicators': {
         'Progress': [
-            (CircularProgress, (['color', 'with_label'], ['variant']), dict(value=50)),
-            (LinearProgress, (['color', 'variant'],), dict(value=50))
+            (LoadingIndicator, (['color', 'with_label'], ['variant']), dict(value=50)),
+            (Progress, (['color', 'variant'],), dict(value=50))
+        ]
+    },
+    'Pane': {
+        'Text': [
+            (Avatar, (['variant'],), dict(object='https://panel.holoviz.org/_static/favicon.ico')),
+            (Chip, (['color', 'variant'], ['size']), dict(object='Foo', icon='favorite')),
+            (Skeleton, (), dict(width=100, height=100, margin=10)),
+        ]
+    },
+    'Template': {
+        'AppBar': [
+            (AppBar, (['color'],), dict(objects=['Item 1', 'Item 2', 'Item 3'])),
         ]
     },
     'Widgets': {
@@ -111,9 +140,9 @@ spec = {
         ],
         'Selection': [
             (AutocompleteInput, (['variant'], ['disabled']), dict(value='Foo', options=['Foo', 'Bar', 'Baz'], label='Autocomplete')),
-            (CheckBoxGroup, (['orientation'],), dict(options=['Foo', 'Bar', 'Baz'], label='CheckBoxGroup', value=[])),
-            (CheckButtonGroup, (['orientation'],), dict(options=['Foo', 'Bar', 'Baz'], label='CheckButtonGroup', value=[])),
-            (RadioBoxGroup, (['orientation'],), dict(options=['Foo', 'Bar', 'Baz'], label='RadioBoxGroup', value='Foo')),
+            (CheckBoxGroup, (['color', 'orientation'],), dict(options=['Foo', 'Bar', 'Baz'], label='CheckBoxGroup', value=['Bar'])),
+            (CheckButtonGroup, (['color', 'orientation'],), dict(options=['Foo', 'Bar', 'Baz'], label='CheckButtonGroup', value=['Foo', 'Bar'])),
+            (RadioBoxGroup, (['color', 'orientation'],), dict(options=['Foo', 'Bar', 'Baz'], label='RadioBoxGroup', value='Foo')),
             (RadioButtonGroup, (['color', 'variant'], ['size'], ['orientation']), dict(options=['Foo', 'Bar', 'Baz'], label='RadioButtonGroup', value='Foo')),
             (Select, (['variant', 'disabled'],), dict(value='Foo', options=['Foo', 'Bar', 'Baz'], label='Select')),
         ],

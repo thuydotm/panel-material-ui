@@ -7,17 +7,17 @@ import FormLabel from '@mui/material/FormLabel'
 export function render({ model }) {
   const [disabled] = model.useState("disabled");
   const [color] = model.useState("color");
-  const [value, setValue] = model.useState("value");
   const [options] = model.useState("options");
   const [label] = model.useState("label");
   const [orientation] = model.useState("orientation");
+  const [value, setValue] = model.useState("value");
+  const exclusive = model.esm_constants.exclusive
   return (
     <FormControl component="fieldset" disabled={disabled}>
-      {label && <FormLabel id="demo-radio-buttons-group-label">{label}</FormLabel>}
+      {label && <FormLabel id="radio-buttons-group-label">{label}</FormLabel>}
       <RadioGroup
-	aria-labelledby="demo-radio-buttons-group-label"
+	aria-labelledby="radio-buttons-group-label"
 	value={value}
-	onChange={(e) => setValue(e.target.value)}
         row={ orientation === "horizontal" ? true : false }
       >
         {options.map((option, index) => {
@@ -26,7 +26,26 @@ export function render({ model }) {
               key={option}
               value={option}
 	      label={option}
-              control={<Radio color={color}/>}
+	      labelPlacement={(orientation === "horizontal") ? "bottom" : "right"}
+              control={
+		<Radio
+		  checked={exclusive ? (value==option) : value.includes(option)}
+		  color={color}
+		  onClick={(e) => {
+		    let newValue
+		    if (exclusive) {
+		      newValue = option
+		    } else if (value.includes(option)) {
+		      newValue = value.filter((v) => v !== option)
+		    } else {
+		      newValue = [...value]
+		      newValue.push(option)
+		    }
+		    console.log(newValue)
+		    setValue(newValue)
+		  }}
+		/>
+	      }
 	    />
 	  )
         })}

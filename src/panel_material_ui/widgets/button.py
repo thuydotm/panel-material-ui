@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Awaitable, Callable
+
 import param
 from panel.widgets.button import _ButtonBase as _PnButtonBase, _ClickButton
 
@@ -22,9 +24,6 @@ class _ButtonBase(MaterialWidget, _PnButtonBase):
     _stylesheets = ['https://fonts.googleapis.com/icon?family=Material+Icons']
 
     __abstract = True
-
-    def _handle_click(self, event):
-        self.param.update(clicks=self.clicks+1, value=True)
 
     def _process_param_change(self, params):
         icon = params.pop('icon', None)
@@ -69,6 +68,44 @@ class Button(_ButtonBase, _ClickButton):
     _rename: ClassVar[Mapping[str, str | None]] = {
         'label': 'label', 'button_style': 'button_style'
     }
+
+    def __init__(self, **params):
+        click_handler = params.pop('on_click', None)
+        super().__init__(**params)
+        if click_handler:
+            self.on_click(click_handler)
+
+    def on_click(
+        self, callback: Callable[[param.parameterized.Event], None | Awaitable[None]]
+    ) -> param.parameterized.Watcher:
+        """
+        Register a callback to be executed when the `Button` is clicked.
+
+        The callback is given an `Event` argument declaring the number of clicks
+
+        Example
+        -------
+
+        >>> button = pn.widgets.Button(name='Click me')
+        >>> def handle_click(event):
+        ...    print("I was clicked!")
+        >>> button.on_click(handle_click)
+
+        Arguments
+        ---------
+        callback:
+            The function to run on click events. Must accept a positional `Event` argument. Can
+            be a sync or async function
+
+        Returns
+        -------
+        watcher: param.Parameterized.Watcher
+          A `Watcher` that executes the callback when the button is clicked.
+        """
+        return self.param.watch(callback, 'clicks', onlychanged=False)
+
+    def _handle_click(self, event):
+        self.param.update(clicks=self.clicks+1, value=True)
 
 
 

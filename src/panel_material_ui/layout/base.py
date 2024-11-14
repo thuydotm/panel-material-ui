@@ -16,6 +16,11 @@ class MaterialListLike(MaterialComponent, ListLike):
 
     __abstract = True
 
+    def __init__(self, *objects, **params):
+        if objects:
+            params['objects'] = objects
+        super().__init__(**params)
+
 
 class MaterialNamedListLike(MaterialComponent, NamedListLike):
 
@@ -129,3 +134,50 @@ class Tabs(MaterialNamedListLike):
                 model = sv._get_model(doc, root, parent, comm)
             models.append(model)
         return models
+
+
+class Divider(MaterialListLike):
+
+    orientation = param.Selector(default='horizontal', objects=['horizontal', 'vertical'])
+
+    variant = param.Selector(default="fullWidth", objects=['fullWidth', 'inset', 'middle'])
+
+    _esm = "Divider.jsx"
+
+
+class Alert(MaterialListLike):
+
+    closed = param.Boolean(default=False)
+
+    closeable = param.Boolean(default=False)
+
+    severity = param.Selector(objects=['error', 'warning', 'info', 'success'], default='success')
+
+    object = param.String(default="")
+
+    title = param.String(default=None)
+
+    variant = param.Selector(default="filled", objects=['filled', 'outlined'])
+
+    _esm = "Alert.jsx"
+
+
+class Backdrop(MaterialListLike):
+
+    open = param.Boolean(default=False)
+
+    _esm = "Backdrop.jsx"
+
+
+class Modal(MaterialListLike):
+
+    open = param.Boolean(default=False)
+
+    _esm = "Modal.jsx"
+
+
+class Dialog(MaterialListLike):
+
+    open = param.Boolean(default=False)
+
+    _esm = "Dialog.jsx"

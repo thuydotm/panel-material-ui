@@ -88,11 +88,17 @@ class RadioGroup(MaterialWidget):
 
 
 class RadioBoxGroup(RadioGroup, MaterialSingleSelectBase):
-    pass
+
+    value = param.String(default=None, allow_None=True)
+
+    _constants = {'exclusive': True}
 
 
 class CheckBoxGroup(RadioGroup, MaterialMultiSelectBase):
-    pass
+
+    value = param.List(default=None, allow_None=True)
+
+    _constants = {'exclusive': False}
 
 
 class ButtonGroup(MaterialWidget):
@@ -112,6 +118,8 @@ class ButtonGroup(MaterialWidget):
     size = param.Selector(objects=["small", "medium", "large"], default="medium")
 
     variant = param.Selector(objects=["text", "outlined", "contained"], default="outlined")
+
+    width = param.Integer(default=None, doc="""""")
 
     _esm = "ButtonGroup.jsx"
 

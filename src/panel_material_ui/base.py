@@ -16,7 +16,7 @@ class MaterialComponent(ReactComponent):
 
     _importmap = {
         "imports": {
-            "@mui/material/": "https://esm.sh/@mui/material@6.1.6/",
+            "@mui/material/": "https://esm.sh/@mui/material@6.1.7/",
             "@mui/icons-material/": "https://esm.sh/@mui/icons-material@6.1.6/",
         }
     }

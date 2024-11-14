@@ -4,7 +4,7 @@ from ..base import COLORS
 from .base import MaterialWidget
 
 
-class CircularProgress(MaterialWidget):
+class LoadingIndicator(MaterialWidget):
 
     color = param.Selector(objects=COLORS, default='primary')
 
@@ -26,7 +26,7 @@ class CircularProgress(MaterialWidget):
     _esm = "CircularProgress.jsx"
 
 
-class LinearProgress(MaterialWidget):
+class Progress(MaterialWidget):
 
     color = param.Selector(objects=COLORS, default='primary')
 

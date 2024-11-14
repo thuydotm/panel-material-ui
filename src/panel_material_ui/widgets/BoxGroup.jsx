@@ -16,15 +16,14 @@ export function render({ model }) {
       <RadioGroup
 	aria-labelledby="demo-radio-buttons-group-label"
 	value={value}
-	onChange={(e) => setValue(e.target.value)}
-        row={orientation === "horizontal" ? true : false  }
+	row={orientation === "horizontal" ? true : false  }
       >
         {options.map((option, index) => (
           <FormControlLabel
             key={option}
             value={option}
 	    label={option}
-            control={<Radio />}
+            control={<Radio onChange={(e) => setValue("option")}/>}
           />
         ))}
       </RadioGroup>

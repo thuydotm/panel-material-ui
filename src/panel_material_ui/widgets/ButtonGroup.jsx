@@ -1,17 +1,6 @@
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
 
-function __Button({ value, ...otherProps }) {
-  return (
-    <ToggleButton
-      variant="outlined"
-      value={value}
-      {...otherProps}
-    />
-  );
-}
-
-
 export function render({ model }) {
   const [variant] = model.useState("variant")
   const [color] = model.useState("color")
@@ -21,30 +10,38 @@ export function render({ model }) {
   const [disableElevation] = model.useState("disableElevation")
   const [options] = model.useState("options")
   const [value, setValue] = model.useState("value")
-
+  const exclusive = model.esm_constants.exclusive
   return (
     <ToggleButtonGroup
-      value={value}
-      exclusive={model.esm_constants.exclusive}
-      onChange={(event, newValue) => { setValue(newValue)}}
-      orientation={orientation}
-      size={size}
       color={color}
       disabled={disabled}
-      fullWidth={true}
+      orientation={orientation}
+      size={size}
+      value={value}
       variant={variant}
     >
-      {...options.map((btn, index) => {
+      {options.map((option, index) => {
 	return (
-	  <__Button
-	    aria-label={btn}
-	    color={color}
-	    value={btn}
-	    selected={btn === value}
-	    variant={variant}
+	  <ToggleButton
+	    aria-label={option}
+	    key={option}
+	    value={option}
+	    selected={exclusive ? (value==option) : value.includes(option)}
+	    onClick={(e) => {
+	      let newValue
+	      if (exclusive) {
+		newValue = option
+	      } else if (value.includes(option)) {
+		newValue = value.filter((v) => v !== option)
+	      } else {
+		newValue = [...value]
+		newValue.push(option)
+	      }
+	      setValue(newValue)
+	    }}
 	  >
-	    {btn}
-	  </__Button>
+	    {option}
+	  </ToggleButton>
 	)
       })}
     </ToggleButtonGroup>
