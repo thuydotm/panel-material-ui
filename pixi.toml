@@ -8,11 +8,15 @@ postinstall = "pip install --no-build-isolation --no-deps --disable-pip-version-
 
 [dependencies]
 python = ">=3.10"
+panel = ">=1.5.4"
+packaging = "*"
 
 [host-dependencies]
 pip = "*"
 setuptools = ">=61"
 setuptools-scm = "*"
+hatchling = "*"
+hatch-vcs = "*"
 
 [feature.test.dependencies]
 pytest = ">=6"
