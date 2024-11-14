@@ -32,13 +32,6 @@ check-wheel = "twine check dist/*"
 
 [feature.lint.dependencies]
 pre-commit = "*"
-insert-license-header = "*"
-docformatter = "*"
-ruff = "*"
-prettier = "*"
-taplo = "*"
-pre-commit-hooks = "*"
-typos = "*"
 [feature.lint.tasks]
 pre-commit-install = "pre-commit install"
 pre-commit-run = "pre-commit run -a"
