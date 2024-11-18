@@ -56,10 +56,3 @@ repos:
         always_run: true
         require_serial: true
         pass_filenames: false
-      # mypy
-      - id: mypy
-        name: mypy
-        entry: pixi run -e default mypy
-        language: system
-        types: [python]
-        require_serial: true
