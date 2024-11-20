@@ -57,6 +57,11 @@ class Button(_ButtonBase, _ClickButton):
     It also provides an additional `clicks` parameter, that can be
     watched to subscribe to click events.
 
+    Some missing and extra features (if any) when comparing with the corresponding
+    panel button widget `panel.widgets.Button`:
+    - Missing features: no
+    - Extra features: tooltip (work in progress), theme
+
     :Example:
 
     >>> Button(name='Click me', icon='caret-right', button_type='primary')
