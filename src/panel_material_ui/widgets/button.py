@@ -58,7 +58,7 @@ class Button(_ButtonBase, _ClickButton):
     watched to subscribe to click events.
 
     Some missing and extra features (if any) when comparing with the corresponding
-    panel button widget `panel.widgets.Button`:
+    panel Button widget [panel.widgets.Button](https://panel.holoviz.org/reference/widgets/Button.html):
     - Missing features: description_delay
     - Extra features: label, on_event, on_msg, tooltip (work in progress), theme
 
@@ -126,7 +126,7 @@ class Toggle(_ButtonBase):
     This widget is interchangeable with the `Checkbox` widget.
 
     Some missing and extra features (if any) when comparing with the corresponding
-    panel Toggle widget `panel.widgets.Toggle`:
+    panel Toggle widget [panel.widgets.Toggle](https://panel.holoviz.org/reference/widgets/Toggle.html):
     - No missing features
     - Extra features: clicks, description, label, on_event, on_msg, theme
 
@@ -164,7 +164,7 @@ class ButtonIcon(_ButtonBase):
     further actions or monitoring.
 
     Some missing and extra features (if any) when comparing with the corresponding
-    panel button icon widget `panel.widgets.ButtonIcon`:
+    panel ButtonIcon widget [panel.widgets.ButtonIcon](https://panel.holoviz.org/reference/widgets/ButtonIcon.html):
     - Missing features: description_delay, js_on_click, on_click
     - Extra features: button_style, button_type, edge, label, on_event, on_msg, theme
 
