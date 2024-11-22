@@ -140,6 +140,15 @@ class IntRangeSlider(_RangeSliderBase):
 
 
 class Rating(MaterialWidget):
+    """
+    The Rating slider widget allows users to select a rating value of their own.
+
+    :Example:
+
+    >>> Rating(value=3, size="large", name="Rate the product")
+
+    """
+
     only_selected = param.Boolean(default=False, doc="Whether to highlight only the select value")
 
     precision = param.Number(default=1, doc="Use the precision prop to define the minimum increment value change allowed.")
