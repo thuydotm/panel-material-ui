@@ -12,7 +12,7 @@ pytestmark = pytest.mark.ui
 
 @pytest.mark.parametrize("button_style", ["contained", "outlined", "text"])
 @pytest.mark.parametrize("button_type", ["primary", "secondary", "error", "info", "success", "warning"])
-def _test_button_display(page, button_style, button_type):
+def test_button_display(page, button_style, button_type):
     btn = Button(name='Click', button_style=button_style, button_type=button_type)
     serve_component(page, btn)
     button = page.locator('.button')
@@ -22,15 +22,26 @@ def _test_button_display(page, button_style, button_type):
     # expect(button_format).to_have_count(1)
 
 
-def test_button_click(page):
+def test_button_on_click(page):
     events = []
     def cb(event):
         events.append(event)
 
     btn = Button(name='Click', on_click=cb)
-    assert btn.clicks == 0
     serve_component(page, btn)
     button = page.locator('.button')
     button.click()
     wait_until(lambda: len(events) == 1, page)
+
+
+def test_button_handle_click(page):
+    btn = Button(name='Click')
+    assert btn.clicks == 0
+    serve_component(page, btn)
+    button = page.locator('.button')
+    button.click()
     assert btn.clicks == 1
+
+
+def test_buttonicon_display(page):
+    icon = ButtonIcon()
