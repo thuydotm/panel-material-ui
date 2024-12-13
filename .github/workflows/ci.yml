@@ -51,3 +51,5 @@ jobs:
         run: pixi run -e ${{ matrix.environment }} postinstall
       - name: Run pytest
         run: pixi run -e ${{ matrix.environment }} test-coverage --color=yes
+      - name: Run ui tests
+        run: pixi run -e ${{ matrix.environment }} test-ui --color=yes
