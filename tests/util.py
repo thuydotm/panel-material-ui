@@ -1,22 +1,13 @@
 from __future__ import annotations
 
 import asyncio
-import contextlib
-import http.server
-import os
 import platform
 import re
 import socket
-import subprocess
 import sys
 import time
 import uuid
 
-from functools import partial
-from queue import Empty, Queue
-from threading import Thread
-
-import numpy as np
 import pytest
 import requests
 
@@ -31,96 +22,11 @@ from panel.io.state import state
 # Will begin to fail again when the first rc is released.
 pnv = Version(pn.__version__)
 
-try:
-    import holoviews as hv
-    hv_version: Version | None = Version(hv.__version__)
-except Exception:
-    hv, hv_version = None, None  # type: ignore
-hv_available = pytest.mark.skipif(hv_version is None or hv_version < Version('1.13.0a23'),
-                                  reason="requires holoviews")
-
-try:
-    import matplotlib as mpl
-    mpl.use('Agg')
-except Exception:
-    mpl = None  # type: ignore
-mpl_available = pytest.mark.skipif(mpl is None, reason="requires matplotlib")
-
-try:
-    import streamz
-except Exception:
-    streamz = None  # type: ignore
-streamz_available = pytest.mark.skipif(streamz is None, reason="requires streamz")
-
-try:
-    import jupyter_bokeh
-except Exception:
-    jupyter_bokeh = None  # type: ignore
-jb_available = pytest.mark.skipif(jupyter_bokeh is None, reason="requires jupyter_bokeh")
-
 APP_PATTERN = re.compile(r'Bokeh app running at: http://localhost:(\d+)/')
 ON_POSIX = 'posix' in sys.builtin_module_names
 
 linux_only = pytest.mark.skipif(platform.system() != 'Linux', reason="Only supported on Linux")
 unix_only = pytest.mark.skipif(platform.system() == 'Windows', reason="Only supported on unix-like systems")
-
-from panel.pane.alert import Alert
-from panel.pane.markup import Markdown
-from panel.widgets.button import _ButtonBase
-
-
-def mpl_figure():
-    import matplotlib.pyplot as plt
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.plot(np.random.rand(10, 2))
-    plt.close(fig)
-    return fig
-
-
-def check_layoutable_properties(layoutable, model):
-    layoutable.styles = {"background": '#fffff0'}
-    assert model.styles["background"] == '#fffff0'
-
-    layoutable.css_classes = ['custom_class']
-    if isinstance(layoutable, Alert):
-        assert model.css_classes == ['markdown', 'custom_class', 'alert', 'alert-primary']
-    elif isinstance(layoutable, Markdown):
-        assert model.css_classes == ['markdown', 'custom_class']
-    elif isinstance(layoutable, _ButtonBase):
-        assert model.css_classes == ['solid', 'custom_class']
-    else:
-        assert model.css_classes == ['custom_class']
-
-    layoutable.width = 500
-    assert model.width == 500
-
-    layoutable.height = 450
-    assert model.height == 450
-
-    layoutable.min_height = 300
-    assert model.min_height == 300
-
-    layoutable.min_width = 250
-    assert model.min_width == 250
-
-    layoutable.max_height = 600
-    assert model.max_height == 600
-
-    layoutable.max_width = 550
-    assert model.max_width == 550
-
-    layoutable.margin = 10
-    assert model.margin == 10
-
-    layoutable.sizing_mode = 'stretch_width'
-    assert model.sizing_mode == 'stretch_width'
-
-    layoutable.width_policy = 'max'
-    assert model.width_policy == 'max'
-
-    layoutable.height_policy = 'min'
-    assert model.height_policy == 'min'
 
 
 def wait_until(fn, page=None, timeout=5000, interval=100):
@@ -263,18 +169,6 @@ async def async_wait_until(fn, page=None, timeout=5000, interval=100):
             await asyncio.sleep(interval / 1000)
 
 
-def get_ctrl_modifier():
-    """
-    Get the CTRL modifier on the current platform.
-    """
-    if sys.platform in ['linux', 'win32']:
-        return 'Control'
-    elif sys.platform == 'darwin':
-        return 'Meta'
-    else:
-        raise ValueError(f'No control modifier defined for platform {sys.platform}')
-
-
 def get_open_ports(n=1):
     sockets,ports = [], []
     for _ in range(n):
@@ -318,13 +212,6 @@ def serve_component(page, app, suffix='', wait=True, **kwargs):
     return msgs, port
 
 
-def serve_and_request(app, suffix="", n=1, port=None, **kwargs):
-    port = serve_and_wait(app, port=port, **kwargs)
-    reqs = [r for _ in range(n) if (r := requests.get(f"http://localhost:{port}{suffix}")).ok]
-    assert len(reqs) == n, "Not all requests were successful"
-    return reqs[0] if n == 1 else reqs
-
-
 def wait_for_server(port, prefix=None, timeout=3):
     start = time.time()
     prefix = prefix or ""
@@ -338,154 +225,3 @@ def wait_for_server(port, prefix=None, timeout=3):
         time.sleep(0.05)
         if (time.time()-start) > timeout:
             raise RuntimeError(f'{url} did not respond before timeout.')
-
-
-@contextlib.contextmanager
-def run_panel_serve(args, cwd=None):
-    cmd = [sys.executable, "-m", "panel", "serve", *map(str, args)]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False, cwd=cwd, close_fds=ON_POSIX)
-    try:
-        yield p
-    except BaseException as e:
-        p.terminate()
-        p.wait()
-        print("An error occurred: %s", e)  # noqa: T201
-        try:
-            out = p.stdout.read().decode()
-            print("\n---- subprocess stdout follows ----\n")  # noqa: T201
-            print(out)  # noqa: T201
-        except Exception:
-            pass
-        raise
-    else:
-        p.terminate()
-        p.wait()
-
-
-class NBSR:
-    def __init__(self, stream) -> None:
-        '''
-        NonBlockingStreamReader
-
-        stream: the stream to read from.
-                Usually a process' stdout or stderr.
-        '''
-
-        self._s = stream
-        self._q: Queue = Queue()
-
-        def _populateQueue(stream, queue):
-            '''
-            Collect lines from 'stream' and put them in 'queue'.
-            '''
-            for line in iter(stream.readline, b''):
-                queue.put(line)
-            stream.close()
-
-        self._t = Thread(target = _populateQueue,
-                args = (self._s, self._q))
-        self._t.daemon = True
-        self._t.start() #start collecting lines from the stream
-
-    def readline(self, timeout=None):
-        try:
-            return self._q.get(
-                block=timeout is not None,
-                timeout=timeout
-            )
-        except Empty:
-            return None
-
-def wait_for_regex(stdout, regex, count=1, return_output=False):
-    if isinstance(stdout, NBSR):
-        nbsr = stdout
-    else:
-        nbsr = NBSR(stdout)
-    m = None
-    output, found = [], []
-    for _ in range(20):
-        o = nbsr.readline(0.5)
-        if not o:
-            continue
-        out = o.decode('utf-8')
-        output.append(out)
-        m = regex.search(out)
-        if m is not None:
-            found.append(m.group(1))
-        if len(found) == count:
-            break
-    if len(found) < count:
-        output = '\n    '.join(output)
-        pytest.fail(
-            "No matching log line in process output, following output "
-            f"was captured:\n\n   {output}"
-        )
-    return (found, output) if return_output else found
-
-def wait_for_port(stdout):
-    return int(wait_for_regex(stdout, APP_PATTERN)[0])
-
-def write_file(content, file_obj):
-    file_obj.write(content)
-    file_obj.flush()
-    os.fsync(file_obj)
-    file_obj.seek(0)
-
-
-def http_serve_directory(directory=".", port=0):
-    """Spawns an http.server.HTTPServer in a separate thread on the given port.
-    The server serves files from the given *directory*. The port listening on
-    will automatically be picked by the operating system to avoid race
-    conditions when trying to bind to an open port that turns out not to be
-    free after all. The hostname is always "localhost".
-
-    Arguments
-    ----------
-    directory : str, optional
-        The directory to server files from. Defaults to the current directory.
-    port : int, optional
-        Port to serve on, defaults to zero which assigns a random port.
-
-    Returns
-    -------
-    http.server.HTTPServer
-        The HTTP server which is serving files from a separate thread.
-        It is not super necessary but you might want to call shutdown() on the
-        returned HTTP server object. This will stop the infinite request loop
-        running in the thread which in turn will then exit. The reason why this
-        is only optional is that the thread in which the server runs is a daemon
-        thread which will be terminated when the main thread ends.
-        By calling shutdown() you'll get a cleaner shutdown because the socket
-        is properly closed.
-    str
-        The address of the server as a string, e.g. "http://localhost:1234".
-    """
-    hostname = "localhost"
-    directory = os.path.abspath(directory)
-    handler = partial(_SimpleRequestHandler, directory=directory)
-    httpd = http.server.HTTPServer((hostname, port), handler, False)
-    # Block only for 0.5 seconds max
-    httpd.timeout = 0.5
-    httpd.server_bind()
-
-    address = "http://%s:%d" % (httpd.server_name, httpd.server_port)
-
-    httpd.server_activate()
-
-    def serve_forever(httpd):
-        with httpd:
-            httpd.serve_forever()
-
-    thread = Thread(target=serve_forever, args=(httpd, ), daemon=True)
-    thread.start()
-
-    return httpd, address
-
-class _SimpleRequestHandler(http.server.SimpleHTTPRequestHandler):
-    """Same as SimpleHTTPRequestHandler with adjusted logging."""
-
-    def end_headers(self):
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Cross-Origin-Opener-Policy', 'same-origin')
-        self.send_header('Cross-Origin-Embedder-Policy', 'credentialless')
-        http.server.SimpleHTTPRequestHandler.end_headers(self)

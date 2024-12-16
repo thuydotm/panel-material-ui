@@ -83,7 +83,7 @@ def test_toggle(page):
     toggle.click()
     toggle_pressed = page.locator("button[aria-pressed='true']")
     wait_until(lambda: expect(toggle_pressed).to_have_count(1), page=page)
-    assert widget.value == True  # noqa
+    wait_until(lambda: widget.value, page=page)
 
 
 @pytest.mark.parametrize('button_type', ['primary', 'secondary', 'error', 'info', 'success', 'warning'])
