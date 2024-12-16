@@ -10,7 +10,7 @@ from tests.util import serve_component, wait_until
 pytestmark = pytest.mark.ui
 
 
-@pytest.mark.xfail(reason='')
+@pytest.mark.xfail(reason='https://github.com/panel-extensions/panel-material-ui/issues/9')
 @pytest.mark.parametrize('button_style', ['contained', 'outlined', 'text'])
 @pytest.mark.parametrize('button_type', ['primary', 'secondary', 'error', 'info', 'success', 'warning'])
 def _test_button_format(page, button_style, button_type):
