@@ -36,6 +36,7 @@ class _ButtonBase(MaterialWidget, _PnButtonBase):
     def _process_param_change(self, params):
         icon = params.pop("icon", None)
         label = params.pop("label", None)
+        button_style = params.pop('button_style', None)
         props = MaterialWidget._process_param_change(self, params)
         props.pop("tooltip", None)
         props.pop("tooltip_delay", None)
@@ -43,6 +44,8 @@ class _ButtonBase(MaterialWidget, _PnButtonBase):
             props["icon"] = icon
         if label:
             props["label"] = label
+        if button_style:
+            props["button_style"] = button_style
         return props
 
 
