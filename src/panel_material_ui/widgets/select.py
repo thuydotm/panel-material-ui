@@ -26,21 +26,18 @@ class MaterialMultiSelectBase(MaterialWidget, _PnMultiSelectBase):
 
 class AutocompleteInput(MaterialSingleSelectBase):
     """
-    The `AutocompleteInput` widget allows selecting multiple values from a list of
+    The `AutocompleteInput` widget allows selecting a single value from a list of
     `options`.
 
-    It falls into the broad category of multi-value, option-selection widgets
-    that provide a compatible API and include the `MultiSelect`,
-    `CrossSelector`, `CheckBoxGroup` and `CheckButtonGroup` widgets.
-
-    The `MultiChoice` widget provides a much more compact UI than
-    `MultiSelect`.
+    Some missing and extra features (if any) when comparing with the corresponding
+    panel AutocompleteInput widget [panel.widgets.Button](https://panel.holoviz.org/reference/widgets/AutocompleteInput.html):
+    - Missing features: case_sensitive, min_characters, placeholder, restrict, search_strategy, value_input
+    - Extra features: label, on_event, on_msg, theme, variant
 
     :Example:
 
     >>> AutocompleteInput(
     ...     name='Study', options=['Biology', 'Chemistry', 'Physics'],
-    ...     placeholder='Write your study here ...'
     ... )
     """
 
