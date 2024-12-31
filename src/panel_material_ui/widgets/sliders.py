@@ -151,13 +151,7 @@ class Rating(MaterialWidget):
 
     only_selected = param.Boolean(default=False, doc="Whether to highlight only the select value")
 
-    precision = param.Number(default=1, doc="Use the precision prop to define the minimum increment value change allowed.")
-
     size = param.Selector(default="medium", objects=["small", "medium", "large"])
-
-    start = param.Number(default=0)
-
-    end = param.Number(default=100)
 
     value = param.Number(default=0, bounds=(0, 5))
 
