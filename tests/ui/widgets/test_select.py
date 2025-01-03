@@ -10,6 +10,28 @@ from tests.util import serve_component, wait_until
 pytestmark = pytest.mark.ui
 
 
+def test_autocomplete_input_value_updates(page):
+    widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"])
+    serve_component(page, widget)
+
+    expect(page.locator(".autocomplete-input")).to_have_count(1)
+
+    page.locator("input").fill("Option 2")
+    page.locator(".MuiAutocomplete-option").click()
+
+    wait_until(lambda: widget.value == 'Option 2', page)
+
+def test_autocomplete_input_value_updates_unrestricted(page):
+    widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"], restrict=False)
+    serve_component(page, widget)
+
+    expect(page.locator(".autocomplete-input")).to_have_count(1)
+
+    page.locator("input").fill("Option 3")
+    page.locator("input").press("Enter")
+
+    wait_until(lambda: widget.value == 'Option 3', page)
+
 @pytest.mark.parametrize('variant', ["filled", "outlined", "standard"])
 def test_autocomplete_input_variant(page, variant):
     widget = AutocompleteInput(name='Autocomplete Input test', variant=variant, options=["Option 1", "Option 2", "123"])
@@ -17,7 +39,6 @@ def test_autocomplete_input_variant(page, variant):
 
     expect(page.locator(".autocomplete-input")).to_have_count(1)
     expect(page.locator(f"div[variant='{variant}']")).to_have_count(1)
-
 
 def test_autocomplete_input_search_strategy(page):
     widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"])
@@ -35,7 +56,6 @@ def test_autocomplete_input_search_strategy(page):
     page.locator("input").fill("tion")
     expect(page.locator(".MuiAutocomplete-option")).to_have_count(2)
 
-
 def test_autocomplete_input_case_sensitive(page):
     widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"])
     serve_component(page, widget)
@@ -49,7 +69,6 @@ def test_autocomplete_input_case_sensitive(page):
 
     page.locator("input").fill("option")
     expect(page.locator(".MuiAutocomplete-option")).to_have_count(2)
-
 
 def test_autocomplete_min_characters(page):
     widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"])

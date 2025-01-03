@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import param
+from panel.util import isIn
+from panel.widgets.base import Widget
 from panel.widgets.select import (
     SingleSelectBase as _PnSingleSelectBase,
 )
@@ -74,7 +76,21 @@ class AutocompleteInput(MaterialSingleSelectBase):
     def _process_property_change(self, msg):
         if 'value' in msg and msg['value'] is None:
             return msg
+        if not self.restrict and 'value' in msg:
+            try:
+                return super()._process_property_change(msg)
+            except Exception:
+                return Widget._process_property_change(self, msg)
         return super()._process_property_change(msg)
+
+    def _process_param_change(self, msg):
+        if 'value' in msg and not self.restrict and not isIn(msg['value'], self.values):
+            with param.parameterized.discard_events(self):
+                props = super()._process_param_change(msg)
+                self.value = props['value'] = msg['value']
+        else:
+            props = super()._process_param_change(msg)
+        return props
 
 
 class Select(MaterialSingleSelectBase):
