@@ -34,7 +34,7 @@ export function render({model, el}) {
         container: el
       }}
     >
-      {button}
+      {checkbox}
     </Tooltip>) : checkbox
   )
 }
