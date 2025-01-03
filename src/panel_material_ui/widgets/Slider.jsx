@@ -15,7 +15,7 @@ export function render({model}) {
   const [value, setValue] = model.useState("value")
 
   return (
-    <Box>
+    <Box sx={{height: "100%"}}>
       <Typography variant="body1">
         {label && `${label}: `}
         <strong>

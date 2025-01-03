@@ -2,9 +2,10 @@ import pytest
 
 pytest.importorskip('playwright')
 
+from playwright.sync_api import expect
+
 from panel_material_ui.widgets import IntSlider, Rating
 
-from playwright.sync_api import expect
 from tests.util import serve_component
 
 pytestmark = pytest.mark.ui
@@ -42,6 +43,14 @@ def test_int_slider_value_update(page):
     for i in range(widget.start, widget.end, widget.step):
         widget.value = i
         assert slider_value.inner_text() == str(widget.value)
+
+
+def test_slider_vertical_height(page):
+    widget = IntSlider(value=5, start=0, end=10, step=1, orientation='vertical')
+
+    serve_component(page, widget)
+
+    assert page.locator('.MuiSlider-rail').evaluate("el => el.offsetHeight") == 300
 
 
 @pytest.mark.parametrize('size', ["small", "medium", "large"])
