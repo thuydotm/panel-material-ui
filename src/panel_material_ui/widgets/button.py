@@ -18,6 +18,7 @@ from .base import MaterialWidget
 class _ButtonBase(MaterialWidget, _PnButtonBase):
 
     button_type = param.Selector(objects=COLORS, default="primary")
+
     clicks = param.Integer(default=0, bounds=(0, None), doc="Number of clicks.")
 
     description = param.String(default=None, doc="""

@@ -6,6 +6,7 @@ export function render({model, el}) {
   const [active_icon] = model.useState("active_icon")
   const [color] = model.useState("button_type")
   const [description] = model.useState("description")
+  const [description_delay] = model.useState("description_delay")
   const [disabled] = model.useState("disabled")
   const [edge] = model.useState("edge")
   const [icon] = model.useState("icon")
@@ -36,6 +37,7 @@ export function render({model, el}) {
   return (description ? (
     <Tooltip
       title={description}
+      enterDelay={description_delay}
       arrow
       placement="right"
       PopperProps={{
