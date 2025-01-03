@@ -5,6 +5,7 @@ import Tooltip from "@mui/material/Tooltip";
 export function render({model, el}) {
   const [color] = model.useState("button_type")
   const [description] = model.useState("description")
+  const [description_delay] = model.useState("description_delay")
   const [disabled] = model.useState("disabled")
   const [icon] = model.useState("icon")
   const [icon_size] = model.useState("icon_size")
@@ -29,6 +30,7 @@ export function render({model, el}) {
   return (description ? (
     <Tooltip
       title={description}
+      enterDelay={description_delay}
       arrow
       placement="right"
       PopperProps={{
