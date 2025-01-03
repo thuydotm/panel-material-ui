@@ -7,6 +7,7 @@ from .base import MaterialWidget
 
 
 class _ContinuousSlider(MaterialWidget):
+
     color = param.Selector(objects=COLORS, default="primary")
 
     start = param.Number(default=0)
@@ -26,6 +27,12 @@ class _ContinuousSlider(MaterialWidget):
     _esm = "Slider.jsx"
 
     __abstract = True
+
+    def _process_param_change(self, params):
+        if self.orientation == 'vertical' and ('width' in params or 'height' in params):
+            params['width'] = self.height
+            params['height'] = self.width
+        return super()._process_param_change(params)
 
 
 class IntSlider(_ContinuousSlider):
