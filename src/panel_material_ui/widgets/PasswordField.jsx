@@ -18,6 +18,7 @@ export function render({model}) {
   const [color] = model.useState("color")
   const [disabled] = model.useState("disabled")
   const [label] = model.useState("label")
+  const [placeholder] = model.useState("placeholder")
   const [value, setValue] = model.useState("value")
   const [variant] = model.useState("variant")
 
@@ -40,6 +41,7 @@ export function render({model}) {
       <InputLabel>{label}</InputLabel>
       <Component
         color={color}
+        placeholder={placeholder}
         variant={variant}
         value={value}
         disabled={disabled}

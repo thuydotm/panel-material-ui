@@ -7,6 +7,7 @@ export function render({model}) {
   const [error_state] = model.useState("error_state")
   const [max_rows] = model.useState("max_rows")
   const [label] = model.useState("label")
+  const [placeholder] = model.useState("placeholder")
   const [rows] = model.useState("rows")
   const [value, setValue] = model.useState("value")
   const [variant] = model.useState("variant")
@@ -24,6 +25,7 @@ export function render({model}) {
       color={color}
       error={error_state}
       label={label}
+      placeholder={placeholder}
       variant={variant}
       value={value}
       disabled={disabled}
