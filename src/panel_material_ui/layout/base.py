@@ -157,6 +157,7 @@ class Tabs(MaterialNamedListLike):
 
 
 class Divider(MaterialListLike):
+
     orientation = param.Selector(default="horizontal", objects=["horizontal", "vertical"])
 
     variant = param.Selector(default="fullWidth", objects=["fullWidth", "inset", "middle"])
@@ -165,6 +166,7 @@ class Divider(MaterialListLike):
 
 
 class Alert(MaterialListLike):
+
     closed = param.Boolean(default=False)
 
     closeable = param.Boolean(default=False)
@@ -181,18 +183,18 @@ class Alert(MaterialListLike):
 
 
 class Backdrop(MaterialListLike):
+
     open = param.Boolean(default=False)
 
     _esm = "Backdrop.jsx"
 
 
-class Modal(MaterialListLike):
-    open = param.Boolean(default=False)
-
-    _esm = "Modal.jsx"
-
-
 class Dialog(MaterialListLike):
+
+    full_screen = param.Boolean(default=False)
+
     open = param.Boolean(default=False)
+
+    title = param.String(default="")
 
     _esm = "Dialog.jsx"
