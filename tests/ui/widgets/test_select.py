@@ -19,6 +19,54 @@ def test_autocomplete_input_variant(page, variant):
     expect(page.locator(f"div[variant='{variant}']")).to_have_count(1)
 
 
+def test_autocomplete_input_search_strategy(page):
+    widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"])
+    serve_component(page, widget)
+
+    expect(page.locator(".autocomplete-input")).to_have_count(1)
+
+    page.locator("input").fill("Option")
+    expect(page.locator(".MuiAutocomplete-option")).to_have_count(2)
+
+    page.locator("input").fill("ti")
+    expect(page.locator(".MuiAutocomplete-option")).to_have_count(0)
+
+    widget.search_strategy = "includes"
+    page.locator("input").fill("tion")
+    expect(page.locator(".MuiAutocomplete-option")).to_have_count(2)
+
+
+def test_autocomplete_input_case_sensitive(page):
+    widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"])
+    serve_component(page, widget)
+
+    expect(page.locator(".autocomplete-input")).to_have_count(1)
+
+    page.locator("input").fill("opt")
+    expect(page.locator(".MuiAutocomplete-option")).to_have_count(0)
+
+    widget.case_sensitive = False
+
+    page.locator("input").fill("option")
+    expect(page.locator(".MuiAutocomplete-option")).to_have_count(2)
+
+
+def test_autocomplete_min_characters(page):
+    widget = AutocompleteInput(name='Autocomplete Input test', options=["Option 1", "Option 2", "123"])
+    serve_component(page, widget)
+
+    expect(page.locator(".autocomplete-input")).to_have_count(1)
+
+    page.locator("input").fill("O")
+    expect(page.locator(".MuiAutocomplete-option")).to_have_count(0)
+    page.locator("input").fill("")
+
+    widget.min_characters = 1
+
+    page.locator("input").fill("O")
+    expect(page.locator(".MuiAutocomplete-option")).to_have_count(2)
+
+
 @pytest.mark.parametrize('variant', ["filled", "outlined", "standard"])
 def test_select_variant(page, variant):
     widget = Select(name='Select test', variant=variant, options=["Option 1", "Option 2", "Option 3"])
