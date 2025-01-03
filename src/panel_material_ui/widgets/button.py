@@ -16,9 +16,16 @@ from .base import MaterialWidget
 
 
 class _ButtonBase(MaterialWidget, _PnButtonBase):
-    button_type = param.Selector(objects=COLORS, default="primary")
 
+    button_type = param.Selector(objects=COLORS, default="primary")
     clicks = param.Integer(default=0, bounds=(0, None), doc="Number of clicks.")
+
+    description = param.String(default=None, doc="""
+        The description in the tooltip.""")
+
+    description_delay = param.Integer(default=5000, doc="""
+        Delay (in milliseconds) to display the tooltip after the cursor has
+        hovered over the Button, default is 500ms.""")
 
     icon = param.String(
         default=None,
@@ -38,8 +45,7 @@ class _ButtonBase(MaterialWidget, _PnButtonBase):
         label = params.pop("label", None)
         button_style = params.pop('button_style', None)
         props = MaterialWidget._process_param_change(self, params)
-        props.pop("tooltip", None)
-        props.pop("tooltip_delay", None)
+        props['button_style'] = self.button_style
         if icon:
             props["icon"] = icon
         if label:
@@ -77,8 +83,6 @@ class Button(_ButtonBase, _ClickButton):
         doc="""
         Size of the icon as a string, e.g. 12px or 1em.""",
     )
-
-    tooltip = param.Parameter(precedence=-1)
 
     value = param.Event(doc="Toggles from False to True while the event is being processed.")
 
