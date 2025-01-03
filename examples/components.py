@@ -106,7 +106,6 @@ spec = {
         'Overlays': [
             (Backdrop, (render_openable,), {}),
             (Dialog, (render_openable,), {}),
-            (Modal, (render_openable,), {}),
         ]
     },
     'Indicators': {
