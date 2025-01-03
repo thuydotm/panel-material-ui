@@ -21,7 +21,7 @@ export function render({model}) {
     if (Array.isArray(value)) {
       let [v1, v2] = value
       if (format) {
-	[v1, v2] = format.doFormat([v1, v2])
+        [v1, v2] = format.doFormat([v1, v2])
       }
       setValueLabel(`${v1} .. ${v2}`)
     } else {
