@@ -45,6 +45,9 @@ class AutocompleteInput(MaterialSingleSelectBase):
     ... )
     """
 
+    case_sensitive = param.Boolean(default=True, doc="""
+        Enable or disable case sensitivity.""")
+
     min_characters = param.Integer(default=2, doc="""
         The number of characters a user must type before
         completions are presented.""")

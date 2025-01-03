@@ -15,11 +15,15 @@ export function render({model, el}) {
   }
 
   const filt_func = (options, state) => {
-    const input = state.inputValue
+    let input = state.inputValue
     if (input.length < model.min_characters) {
       return []
     }
     return options.filter((opt) => {
+      if (!model.case_sensitive) {
+	opt = opt.toLowerCase()
+	input = input.toLowerCase()
+      }
       return model.search_strategy == 'includes' ? opt.includes(input) : opt.startsWith(input)
     })
   }
