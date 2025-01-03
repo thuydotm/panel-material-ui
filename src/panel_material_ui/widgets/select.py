@@ -162,8 +162,6 @@ class ButtonGroup(MaterialWidget):
 
     size = param.Selector(objects=["small", "medium", "large"], default="medium")
 
-    variant = param.Selector(objects=["text", "outlined", "contained"], default="outlined")
-
     width = param.Integer(default=None, doc="""""")
 
     _esm = "ButtonGroup.jsx"

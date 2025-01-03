@@ -2,7 +2,7 @@ import pytest
 
 pytest.importorskip('playwright')
 
-from panel_material_ui.widgets import AutocompleteInput, Select, RadioBoxGroup, RadioButtonGroup
+from panel_material_ui.widgets import AutocompleteInput, Select, RadioBoxGroup, RadioButtonGroup, CheckButtonGroup
 
 from playwright.sync_api import expect
 from tests.util import serve_component, wait_until
@@ -47,64 +47,55 @@ def test_radio_box_group_format(page, color, orientation):
 @pytest.mark.parametrize('color', ["primary", "secondary", "error", "info", "success", "warning"])
 @pytest.mark.parametrize('orientation', ["horizontal", "vertical"])
 @pytest.mark.parametrize('size', ["small", "medium", "large"])
-@pytest.mark.parametrize('variant', ["text", "outlined", "contained"])
-def _test_radio_button_group_format(page, color, orientation, size, variant):
+def test_radio_button_group_format(page, color, orientation, size):
     widget = RadioButtonGroup(
         name='RadioButtonGroup test',
         options=["Option 1", "Option 2", "Option 3"],
         color=color,
         orientation=orientation,
         size=size,
-        variant=variant,
     )
     serve_component(page, widget)
     rbg = page.locator(".radio-button-group")
     wait_until(lambda: expect(rbg).to_have_count(1), page=page)
-    # group level
-    rbg_color = page.locator(f".MuiButtonGroup-color{color.capitalize()}")
-    rbg_orient = page.locator(f".MuiButtonGroup-{orientation}")
-    rbg_variant = page.locator(f".MuiButtonGroup-{variant}")
-    expect(rbg_color).to_have_count(1)
-    expect(rbg_orient).to_have_count(1)
-    expect(rbg_variant).to_have_count(1)
 
+    # group level
+    rbg_orient = page.locator(f".MuiToggleButtonGroup-{orientation}")
+    expect(rbg_orient).to_have_count(1)
     # option level
-    option_color = page.locator(f".MuiButton-color{color.capitalize()}")
-    option_size = page.locator(f".MuiButton-size{size.capitalize()}")
-    option_outline = page.locator(f".MuiButton-{variant}")
+    if color == "error":
+        option_color = page.locator(f".Mui-{color}")
+    else:
+        option_color = page.locator(f".MuiToggleButton-{color}")
+    option_size = page.locator(f".MuiToggleButton-size{size.capitalize()}")
     expect(option_color).to_have_count(len(widget.options))
     expect(option_size).to_have_count(len(widget.options))
-    expect(option_outline).to_have_count(len(widget.options))
 
 
 @pytest.mark.parametrize('color', ["primary", "secondary", "error", "info", "success", "warning"])
 @pytest.mark.parametrize('orientation', ["horizontal", "vertical"])
 @pytest.mark.parametrize('size', ["small", "medium", "large"])
-@pytest.mark.parametrize('variant', ["text", "outlined", "contained"])
-def _test_check_button_group_format(page, color, orientation, size, variant):
+def test_check_button_group_format(page, color, orientation, size):
     widget = CheckButtonGroup(
         name='CheckButtonGroup test',
+        value=[],
         options=["Option 1", "Option 2", "Option 3"],
         color=color,
         orientation=orientation,
         size=size,
-        variant=variant,
     )
     serve_component(page, widget)
-    rbg = page.locator(".check-button-group")
-    wait_until(lambda: expect(rbg).to_have_count(1), page=page)
-    # group level
-    rbg_color = page.locator(f".MuiButtonGroup-color{color.capitalize()}")
-    rbg_orient = page.locator(f".MuiButtonGroup-{orientation}")
-    rbg_variant = page.locator(f".MuiButtonGroup-{variant}")
-    expect(rbg_color).to_have_count(1)
-    expect(rbg_orient).to_have_count(1)
-    expect(rbg_variant).to_have_count(1)
+    cbg = page.locator(".check-button-group")
+    wait_until(lambda: expect(cbg).to_have_count(1), page=page)
 
+    # group level
+    cbg_orient = page.locator(f".MuiToggleButtonGroup-{orientation}")
+    expect(cbg_orient).to_have_count(1)
     # option level
-    option_color = page.locator(f".MuiButton-color{color.capitalize()}")
-    option_size = page.locator(f".MuiButton-size{size.capitalize()}")
-    option_outline = page.locator(f".MuiButton-{variant}")
+    if color == "error":
+        option_color = page.locator(f".Mui-{color}")
+    else:
+        option_color = page.locator(f".MuiToggleButton-{color}")
+    option_size = page.locator(f".MuiToggleButton-size{size.capitalize()}")
     expect(option_color).to_have_count(len(widget.options))
     expect(option_size).to_have_count(len(widget.options))
-    expect(option_outline).to_have_count(len(widget.options))
