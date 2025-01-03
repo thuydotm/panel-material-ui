@@ -6,6 +6,7 @@ export function render({model}) {
   const [color] = model.useState("color")
   const [disabled] = model.useState("disabled")
   const [end] = model.useState("end")
+  const [format] = model.useState("format")
   const [label] = model.useState("label")
   const [orientation] = model.useState("orientation")
   const [start] = model.useState("start")
@@ -14,12 +15,26 @@ export function render({model}) {
   const [track] = model.useState("track")
   const [value, setValue] = model.useState("value")
 
+  const [value_label, setValueLabel] = React.useState()
+
+  React.useEffect(() => {
+    if (Array.isArray(value)) {
+      let [v1, v2] = value
+      if (format) {
+        [v1, v2] = format.doFormat([v1, v2])
+      }
+      setValueLabel(`${v1} .. ${v2}`)
+    } else {
+      setValueLabel(format ? format.doFormat([value])[0] : value)
+    }
+  }, [format, value])
+
   return (
     <Box sx={{height: "100%"}}>
       <Typography variant="body1">
         {label && `${label}: `}
         <strong>
-          {Array.isArray(value) ? `${value[0]} .. ${value[1]}` : value }
+          {value_label}
         </strong>
       </Typography>
       <Slider

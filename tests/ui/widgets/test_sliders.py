@@ -2,55 +2,82 @@ import pytest
 
 pytest.importorskip('playwright')
 
-from playwright.sync_api import expect
-
+from bokeh.models.formatters import PrintfTickFormatter
 from panel_material_ui.widgets import IntSlider, Rating
+from playwright.sync_api import expect
 
 from tests.util import serve_component
 
 pytestmark = pytest.mark.ui
 
 
-@pytest.mark.parametrize('color', ['primary', 'secondary', 'error', 'info', 'success', 'warning'])
-@pytest.mark.parametrize('orientation', ["horizontal", "vertical"])
-@pytest.mark.parametrize('track', ["normal", "inverted", False])
-def test_int_slider_format(page, color, orientation, track):
-    widget = IntSlider(value=5, start=0, end=10, step=1, color=color, orientation=orientation, track=track)
+def test_int_slider(page):
+    widget = IntSlider(value=5, start=0, end=10, step=1)
     serve_component(page, widget)
 
     slider = page.locator('.int-slider')
     expect(slider).to_have_count(1)
 
     slider_value = page.locator('.MuiTypography-root')
-    assert slider_value.inner_text() == str(widget.value)
-
-    bar_color = page.locator(f'.MuiSlider-color{color.capitalize()}')
-    expect(bar_color).to_have_count(1)
-    if track != "normal":
-        bar_track = page.locator(f'.MuiSlider-track{str(track).capitalize()}')
-        expect(bar_track).to_have_count(1)
-
-    if orientation == "vertical":
-        bar_orientation = page.locator(f'.MuiSlider-{orientation}')
-        expect(bar_orientation).to_have_count(1)
+    expect(slider_value).to_have_text(str(widget.value))
 
 
-def test_int_slider_value_update(page):
+def test_slider_value_update(page):
     widget = IntSlider(value=5, start=0, end=10, step=1)
     serve_component(page, widget)
     slider_value = page.locator('.MuiTypography-root')
 
     for i in range(widget.start, widget.end, widget.step):
         widget.value = i
-        assert slider_value.inner_text() == str(widget.value)
+        expect(slider_value).to_have_text(str(i))
 
 
-def test_slider_vertical_height(page):
+@pytest.mark.parametrize('color', ['primary', 'secondary', 'error', 'info', 'success', 'warning'])
+def test_slider_color(page, color):
+    widget = IntSlider(value=5, start=0, end=10, step=1, color=color)
+    serve_component(page, widget)
+
+    expect(page.locator(f'.MuiSlider-color{color.capitalize()}')).to_have_count(1)
+
+
+@pytest.mark.parametrize('track', ["inverted", False])
+def test_slider_track(page, track):
+    widget = IntSlider(value=5, start=0, end=10, step=1, track=track)
+    serve_component(page, widget)
+    expect(page.locator(f'.MuiSlider-track{str(track).capitalize()}')).to_have_count(1)
+
+
+def test_slider_vertical_orientation(page):
     widget = IntSlider(value=5, start=0, end=10, step=1, orientation='vertical')
 
     serve_component(page, widget)
 
-    assert page.locator('.MuiSlider-rail').evaluate("el => el.offsetHeight") == 300
+    expect(page.locator(f'.MuiSlider-vertical')).to_have_count(1)
+    assert page.locator('.MuiSlider-rail').evaluate("el => el.offsetHeight") == widget.width
+
+
+def test_slider_format_str(page):
+    widget = IntSlider(value=1101, start=0, end=2000, format='0a', step=1)
+
+    serve_component(page, widget)
+
+    expect(page.locator('.MuiTypography-root')).to_have_text('1k')
+
+    widget.value = 2000
+
+    expect(page.locator('.MuiTypography-root')).to_have_text('2k')
+
+
+def test_slider_format_model(page):
+    widget = IntSlider(value=1, start=0, end=10, format=PrintfTickFormatter(format='%d m'), step=1)
+
+    serve_component(page, widget)
+
+    expect(page.locator('.MuiTypography-root')).to_have_text('1 m')
+
+    widget.value = 7
+
+    expect(page.locator('.MuiTypography-root')).to_have_text('7 m')
 
 
 @pytest.mark.parametrize('size', ["small", "medium", "large"])

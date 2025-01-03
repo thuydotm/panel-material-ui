@@ -1,4 +1,5 @@
 import param
+from bokeh.models.formatters import NumeralTickFormatter, TickFormatter
 from panel.util import edit_readonly
 from param.parameterized import resolve_value
 
@@ -13,6 +14,9 @@ class _ContinuousSlider(MaterialWidget):
     start = param.Number(default=0)
 
     end = param.Number(default=100)
+
+    format = param.ClassSelector(class_=(str, TickFormatter,), doc="""
+        A custom format string or Bokeh TickFormatter.""")
 
     step = param.Number(default=1)
 
@@ -32,6 +36,8 @@ class _ContinuousSlider(MaterialWidget):
         if self.orientation == 'vertical' and ('width' in params or 'height' in params):
             params['width'] = self.height
             params['height'] = self.width
+        if 'format' in params and isinstance(params['format'], str):
+            params['format'] = NumeralTickFormatter(format=params['format'])
         return super()._process_param_change(params)
 
 
