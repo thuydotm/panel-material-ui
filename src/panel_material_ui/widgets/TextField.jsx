@@ -5,6 +5,7 @@ export function render({model}) {
   const [disabled] = model.useState("disabled")
   const [error_state] = model.useState("error_state")
   const [label] = model.useState("label")
+  const [placeholder] = model.useState("placeholder")
   const [value, setValue] = model.useState("value")
   const [variant] = model.useState("variant")
   return (
@@ -13,6 +14,7 @@ export function render({model}) {
       color={color}
       error={error_state}
       label={label}
+      placeholder={placeholder}
       variant={variant}
       value={value}
       disabled={disabled}
