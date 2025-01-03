@@ -153,13 +153,23 @@ class Rating(MaterialWidget):
     :Example:
 
     >>> Rating(value=3, size="large", name="Rate the product")
-
     """
+
+    end = param.Integer(default=5, bounds=(1, None), doc="The maximum value for the rating.")
 
     only_selected = param.Boolean(default=False, doc="Whether to highlight only the select value")
 
     size = param.Selector(default="medium", objects=["small", "medium", "large"])
 
-    value = param.Number(default=0, bounds=(0, 5))
+    value = param.Number(default=0, allow_None=True, bounds=(0, 5))
 
     _esm = "Rating.jsx"
+
+    @param.depends("end", watch=True, on_init=True)
+    def _update_value_bounds(self):
+        self.param.value.bounds = (0, self.end)
+
+    def _process_property_change(self, msg):
+        if 'value' in msg and msg['value'] is None:
+            msg['value'] = 0
+        return super()._process_property_change(msg)
