@@ -47,9 +47,16 @@ class AutocompleteInput(MaterialSingleSelectBase):
 
     variant = param.Selector(objects=["filled", "outlined", "standard"], default="outlined")
 
+    _allows_none = True
+
     _esm = "Autocomplete.jsx"
 
     _rename = {"name": "name"}
+
+    def _process_property_change(self, msg):
+        if 'value' in msg and msg['value'] is None:
+            return msg
+        return super()._process_property_change(msg)
 
 
 class Select(MaterialSingleSelectBase):
