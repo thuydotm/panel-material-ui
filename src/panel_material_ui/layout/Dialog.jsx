@@ -18,7 +18,7 @@ export function render({model, view}) {
         {title}
       </DialogTitle>
       <DialogContent>
-	{objects}
+        {objects}
       </DialogContent>
     </Dialog>
   );
