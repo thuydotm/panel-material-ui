@@ -21,10 +21,10 @@ export function render({model, el}) {
     }
     return options.filter((opt) => {
       if (!model.case_sensitive) {
-	opt = opt.toLowerCase()
-	input = input.toLowerCase()
+        opt = opt.toLowerCase()
+        input = input.toLowerCase()
       }
-      return model.search_strategy == 'includes' ? opt.includes(input) : opt.startsWith(input)
+      return model.search_strategy == "includes" ? opt.includes(input) : opt.startsWith(input)
     })
   }
 
