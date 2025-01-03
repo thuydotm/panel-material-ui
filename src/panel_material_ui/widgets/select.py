@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import param
+from panel.util import isIn
+from panel.widgets.base import Widget
 from panel.widgets.select import (
     SingleSelectBase as _PnSingleSelectBase,
 )
@@ -45,6 +47,24 @@ class AutocompleteInput(MaterialSingleSelectBase):
     ... )
     """
 
+    case_sensitive = param.Boolean(default=True, doc="""
+        Enable or disable case sensitivity.""")
+
+    min_characters = param.Integer(default=2, doc="""
+        The number of characters a user must type before
+        completions are presented.""")
+
+    restrict = param.Boolean(default=True, doc="""
+        Set to False in order to allow users to enter text that is not
+        present in the list of completion strings.""")
+
+    search_strategy = param.Selector(default='starts_with',
+        objects=['starts_with', 'includes'], doc="""
+        Define how to search the list of completion strings. The default option
+        `"starts_with"` means that the user's text must match the start of a
+        completion string. Using `"includes"` means that the user's text can
+        match any substring of a completion string.""")
+
     variant = param.Selector(objects=["filled", "outlined", "standard"], default="outlined")
 
     _allows_none = True
@@ -56,7 +76,21 @@ class AutocompleteInput(MaterialSingleSelectBase):
     def _process_property_change(self, msg):
         if 'value' in msg and msg['value'] is None:
             return msg
+        if not self.restrict and 'value' in msg:
+            try:
+                return super()._process_property_change(msg)
+            except Exception:
+                return Widget._process_property_change(self, msg)
         return super()._process_property_change(msg)
+
+    def _process_param_change(self, msg):
+        if 'value' in msg and not self.restrict and not isIn(msg['value'], self.values):
+            with param.parameterized.discard_events(self):
+                props = super()._process_param_change(msg)
+                self.value = props['value'] = msg['value']
+        else:
+            props = super()._process_param_change(msg)
+        return props
 
 
 class Select(MaterialSingleSelectBase):
