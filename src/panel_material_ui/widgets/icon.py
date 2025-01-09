@@ -16,7 +16,6 @@ class ToggleIcon(MaterialWidget):
     Some missing and extra features (if any) when comparing with the corresponding
     panel ToggleIcon widget [panel.widgets.ToggleIcon](https://panel.holoviz.org/reference/widgets/ToggleIcon.html):
     - Missing features: description_delay
-    - Extra features: color, label, on_event, on_msg, theme
 
     :Example:
 

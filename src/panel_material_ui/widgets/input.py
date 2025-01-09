@@ -56,10 +56,9 @@ class TextInput(_TextInputBase):
     """
     The `TextInput` widget allows entering any string using a text input box.
 
-    Some missing and extra features (if any) when comparing with the corresponding
+    Some missing features (if any) when comparing with the corresponding
     panel TextInput widget [panel.widgets.TextInput](https://panel.holoviz.org/reference/widgets/TextInput.html):
     - Missing features: enter_pressed
-    - Extra features: color, error_state, label, on_event, on_msg, theme, variant
 
     :Example:
 
@@ -73,10 +72,8 @@ class PasswordInput(_TextInputBase):
     """
     The `PasswordInput` widget allows entering any string using an obfuscated text input box.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel PasswordInput widget [panel.widgets.PasswordInput](https://panel.holoviz.org/reference/widgets/PasswordInput.html):
-    - No missing features
-    - Extra features: color, error_state, label, on_event, on_msg, theme, variant
+    Reference to the corresponding panel PasswordInput widget:
+    https://panel.holoviz.org/reference/widgets/PasswordInput.html
 
     :Example:
 
@@ -93,10 +90,8 @@ class TextAreaInput(_TextInputBase):
 
     Lines are joined with the newline character `\n`.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel TextAreaInput widget [panel.widgets.TextAreaInput](https://panel.holoviz.org/reference/widgets/TextAreaInput.html):
-    - No missing features
-    - Extra features: color, error_state, label, on_event, on_msg, theme, variant
+    Reference to the corresponding panel TextAreaInput widget:
+    https://panel.holoviz.org/reference/widgets/TextAreaInput.html
 
     :Example:
 
@@ -149,10 +144,8 @@ class Checkbox(MaterialWidget):
 
     This widget is interchangeable with the `Switch` widget.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel Checkbox widget [panel.widgets.Checkbox](https://panel.holoviz.org/reference/widgets/Checkbox.html):
-    - No missing features
-    - Extra features: color, description, indeterminate, label, on_event, on_msg, size, theme
+    Reference to the corresponding panel Checkbox widget:
+    https://panel.holoviz.org/reference/widgets/Checkbox.html
 
     :Example:
 
@@ -177,10 +170,8 @@ class Switch(MaterialWidget):
 
     This widget is interchangeable with the `Checkbox` widget.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel Switch widget [panel.widgets.Switch](https://panel.holoviz.org/reference/widgets/Switch.html):
-    - No missing features
-    - Extra features: color, description, edge, label, on_event, on_msg, size, theme
+    Reference to the corresponding panel Switch widget:
+    https://panel.holoviz.org/reference/widgets/Switch.html
 
     :Example:
 
@@ -206,10 +197,8 @@ class FileInput(MaterialWidget, _PnFileInput):
 
     It makes the filename, MIME type and (bytes) content available in Python.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel FileInput widget [panel.widgets.FileInput](https://panel.holoviz.org/reference/widgets/FileInput.html):
-    - No missing features
-    - Extra features: button_style, button_type, label, on_event, on_msg, theme
+    Reference to the corresponding panel FileInput widget:
+    https://panel.holoviz.org/reference/widgets/FileInput.html
 
     :Example:
 
