@@ -56,6 +56,10 @@ class TextInput(_TextInputBase):
     """
     The `TextInput` widget allows entering any string using a text input box.
 
+    Some missing features (if any) when comparing with the corresponding
+    panel TextInput widget [panel.widgets.TextInput](https://panel.holoviz.org/reference/widgets/TextInput.html):
+    - Missing features: enter_pressed
+
     :Example:
 
     >>> TextInput(name='Name', placeholder='Enter your name here ...')
@@ -66,11 +70,14 @@ class TextInput(_TextInputBase):
 
 class PasswordInput(_TextInputBase):
     """
-    The `PasswordInput` widget allows entering any string using a text input box.
+    The `PasswordInput` widget allows entering any string using an obfuscated text input box.
+
+    Reference to the corresponding panel PasswordInput widget:
+    https://panel.holoviz.org/reference/widgets/PasswordInput.html
 
     :Example:
 
-    >>> PasswordInput(name='Name', placeholder='Enter your name here ...')
+    >>> PasswordInput(label='Password', placeholder='Enter your password here ...')
     """
 
     _esm = "PasswordField.jsx"
@@ -83,11 +90,13 @@ class TextAreaInput(_TextInputBase):
 
     Lines are joined with the newline character `\n`.
 
-    Reference: https://panel.holoviz.org/reference/widgets/TextAreaInput.html
+    Reference to the corresponding panel TextAreaInput widget:
+    https://panel.holoviz.org/reference/widgets/TextAreaInput.html
+
     :Example:
 
     >>> TextAreaInput(
-    ...     name='Description', placeholder='Enter your description here...'
+    ...     label='Description', placeholder='Enter your description here...'
     ... )
     """
 
@@ -133,11 +142,14 @@ class Checkbox(MaterialWidget):
     The `Checkbox` allows toggling a single condition between `True`/`False`
     states by ticking a checkbox.
 
-    This widget is interchangeable with the `Toggle` widget.
+    This widget is interchangeable with the `Switch` widget.
+
+    Reference to the corresponding panel Checkbox widget:
+    https://panel.holoviz.org/reference/widgets/Checkbox.html
 
     :Example:
 
-    >>> Checkbox(name='Works with the tools you know and love', value=True)
+    >>> Checkbox(label='Works with the tools you know and love', value=True)
     """
 
     color = param.Selector(objects=COLORS, default="primary")
@@ -156,11 +168,14 @@ class Switch(MaterialWidget):
     The `Switch` allows toggling a single condition between `True`/`False`
     states by ticking a checkbox.
 
-    This widget is interchangeable with the `Toggle` widget.
+    This widget is interchangeable with the `Checkbox` widget.
+
+    Reference to the corresponding panel Switch widget:
+    https://panel.holoviz.org/reference/widgets/Switch.html
 
     :Example:
 
-    >>> Switch(name='Works with the tools you know and love', value=True)
+    >>> Switch(label='Works with the tools you know and love', value=True)
     """
 
     color = param.Selector(objects=["default"] + COLORS, default="primary")
@@ -177,6 +192,19 @@ class Switch(MaterialWidget):
 
 
 class FileInput(MaterialWidget, _PnFileInput):
+    """
+    The `FileInput` allows the user to upload one or more files to the server.
+
+    It makes the filename, MIME type and (bytes) content available in Python.
+
+    Reference to the corresponding panel FileInput widget:
+    https://panel.holoviz.org/reference/widgets/FileInput.html
+
+    :Example:
+
+    >>> FileInput(accept='.png,.jpeg', multiple=True)
+    """
+
     button_type = param.Selector(objects=COLORS, default="primary")
 
     button_style = param.Selector(objects=["contained", "outlined", "text"], default="contained")
