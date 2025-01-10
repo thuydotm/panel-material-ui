@@ -60,5 +60,4 @@ class ChatAreaInput(TextAreaInput):
     max_length = param.Integer(default=50000, doc="""
         Max count of characters in the input field.""")
 
-
     _esm = "ChatArea.jsx"
