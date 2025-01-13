@@ -9,6 +9,7 @@ export function render({model}) {
   const [label] = model.useState("label")
   const [placeholder] = model.useState("placeholder")
   const [rows] = model.useState("rows")
+  const [value_input, setValueInput] = model.useState("value_input")
   const [value, setValue] = model.useState("value")
   const [variant] = model.useState("variant")
 
@@ -29,7 +30,13 @@ export function render({model}) {
       variant={variant}
       value={value}
       disabled={disabled}
-      onChange={(event) => setValue(event.target.value)}
+      onBlur={() => setValue(value_input)}
+      onChange={(event) => setValueInput(event.target.value)}
+      onKeyDown={(event) => {
+	if (event.key === 'Enter') {
+	  setValue(value_input)
+	}
+      }}
       maxRows={max_rows}
       fullWidth
       {...props}

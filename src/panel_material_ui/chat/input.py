@@ -61,3 +61,12 @@ class ChatAreaInput(TextAreaInput):
         Max count of characters in the input field.""")
 
     _esm = "ChatArea.jsx"
+
+    def _handle_msg(self, msg) -> None:
+        """
+        Clear value on shift enter key down.
+        """
+        self.value = msg
+        with param.discard_events(self):
+            self.value = ""
+        self.value_input = ""

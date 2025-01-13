@@ -6,8 +6,10 @@ export function render({model}) {
   const [error_state] = model.useState("error_state")
   const [label] = model.useState("label")
   const [placeholder] = model.useState("placeholder")
+  const [value_input, setValueInput] = model.useState("value_input")
   const [value, setValue] = model.useState("value")
   const [variant] = model.useState("variant")
+
   return (
     <TextField
       multiline={model.esm_constants.multiline}
@@ -18,7 +20,13 @@ export function render({model}) {
       variant={variant}
       value={value}
       disabled={disabled}
-      onChange={(event) => setValue(event.target.value)}
+      onBlur={() => setValue(value_input)}
+      onChange={(event) => setValueInput(event.target.value)}
+      onKeyDown={(event) => {
+	if (event.key === 'Enter') {
+	  setValue(value_input)
+	}
+      }}
       rows={4}
       fullWidth
     />
