@@ -24,6 +24,7 @@ export function render({model}) {
       onChange={(event) => setValueInput(event.target.value)}
       onKeyDown={(event) => {
 	if (event.key === 'Enter') {
+	  model.send_event('enter', event)
 	  setValue(value_input)
 	}
       }}

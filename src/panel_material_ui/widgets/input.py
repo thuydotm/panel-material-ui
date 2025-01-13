@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 import param
+from panel.model.reactive_html import DOMEvent
 from panel.widgets.input import FileInput as _PnFileInput
 
 from ..base import COLORS
@@ -52,6 +53,7 @@ class _TextInputBase(MaterialWidget):
     __abstract = True
 
 
+
 class TextInput(_TextInputBase):
     """
     The `TextInput` widget allows entering any string using a text input box.
@@ -65,7 +67,13 @@ class TextInput(_TextInputBase):
     >>> TextInput(name='Name', placeholder='Enter your name here ...')
     """
 
+    enter_pressed = param.Event(doc="""
+        Event when the enter key has been pressed.""")
+
     _esm = "TextField.jsx"
+
+    def _handle_enter(self, event: DOMEvent):
+        self.param.trigger('enter_pressed')
 
 
 class PasswordInput(_TextInputBase):
