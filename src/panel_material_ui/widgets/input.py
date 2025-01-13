@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 import param
-from panel.model.reactive_html import DOMEvent
+from panel.models.reactive_html import DOMEvent
 from panel.widgets.input import FileInput as _PnFileInput
 
 from ..base import COLORS
