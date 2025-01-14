@@ -1,8 +1,8 @@
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
-import OutlinedInput from '@mui/material/OutlinedInput';
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 export function render({model}) {
   const [autogrow] = model.useState("auto_grow")
@@ -36,23 +36,23 @@ export function render({model}) {
       color={color}
       disabled={disabled}
       endAdornment={
-	<InputAdornment position="end">
-	  <IconButton
-	    color="primary"
-	    onClick={() => send()}
-	  >
-	    <SendIcon />
-	  </IconButton>
-	</InputAdornment>
+        <InputAdornment position="end">
+          <IconButton
+            color="primary"
+            onClick={() => send()}
+          >
+            <SendIcon />
+          </IconButton>
+        </InputAdornment>
       }
       error={error_state}
       maxRows={max_rows}
       label={label}
       onChange={(event) => setValueInput(event.target.value)}
       onKeyDown={(event) => {
-	if ((event.key === "Enter") && (enter_sends || event.ctrlKey || event.shiftKey)) {
-	  send()
-	}
+        if ((event.key === "Enter") && (enter_sends || event.ctrlKey || event.shiftKey)) {
+          send()
+        }
       }}
       placeholder={placeholder}
       value={value_input}

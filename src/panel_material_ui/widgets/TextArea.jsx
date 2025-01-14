@@ -33,9 +33,9 @@ export function render({model}) {
       onBlur={() => setValue(value_input)}
       onChange={(event) => setValueInput(event.target.value)}
       onKeyDown={(event) => {
-	if (event.key === 'Enter') {
-	  setValue(value_input)
-	}
+        if (event.key === "Enter") {
+          setValue(value_input)
+        }
       }}
       maxRows={max_rows}
       fullWidth

@@ -23,10 +23,10 @@ export function render({model}) {
       onBlur={() => setValue(value_input)}
       onChange={(event) => setValueInput(event.target.value)}
       onKeyDown={(event) => {
-	if (event.key === 'Enter') {
-	  model.send_event('enter', event)
-	  setValue(value_input)
-	}
+        if (event.key === "Enter") {
+          model.send_event('enter', event)
+          setValue(value_input)
+        }
       }}
       rows={4}
       fullWidth
