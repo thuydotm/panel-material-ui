@@ -255,7 +255,7 @@ class Alert(MaterialListLike):
 
 class Backdrop(MaterialListLike):
     """
-    The `Backdrop` component used to create a semi-transparent overlay over the application's UI.
+    The `Backdrop` component can be used to create a semi-transparent overlay over the application's UI.
     It is often used to focus attention on a specific part of the interface,
     such as during loading states or while a modal dialog is open.
 
@@ -263,10 +263,10 @@ class Backdrop(MaterialListLike):
     https://mui.com/material-ui/react-backdrop/
 
     Example:
-    >>> AutocompleteInput(
-    ...     label='Study', options=['Biology', 'Chemistry', 'Physics'],
-    ... )
-
+    >>> close = Button(on_click=lambda _: backdrop.param.update(open=False), label='Close')  # type: ignore
+    >>> backdrop = Backdrop(LoadingIndicator(), close)
+    >>> button = Button(on_click=lambda _: backdrop.param.update(open=True), label=f'Open {Backdrop.name}')
+    >>> pn.Column(button, backdrop).servable()
     """
 
     open = param.Boolean(default=False)
@@ -275,6 +275,20 @@ class Backdrop(MaterialListLike):
 
 
 class Dialog(MaterialListLike):
+    """
+    The `Dialog` can be used to display important content in a modal-like overlay that requires
+    user interaction. It is often used for tasks such as confirmations, forms, or displaying
+    additional information.
+
+    Reference to the corresponding Material UI `Dialog`:
+    https://mui.com/material-ui/react-dialog/
+
+    Example:
+    >>> close = Button(on_click=lambda _: dialog.param.update(open=False), label='Close')  # type: ignore
+    >>> dialog = Dialog("This is a modal", close)
+    >>> button = Button(on_click=lambda _: dialog.param.update(open=True), label=f'Open {Dialog.name}')
+    >>> pn.Column(button, dialog).servable()
+    """
 
     full_screen = param.Boolean(default=False)
 
