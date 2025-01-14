@@ -4,6 +4,7 @@ from typing import Any
 
 import param
 from panel.models.reactive_html import DOMEvent
+from panel.util import edit_readonly
 from panel.widgets.input import FileInput as _PnFileInput
 
 from ..base import COLORS
@@ -44,6 +45,7 @@ class _TextInputBase(MaterialWidget):
     value_input = param.String(
         default="",
         allow_None=True,
+        readonly=True,
         doc="""
         Initial or entered text value updated on every key press.""",
     )
@@ -52,6 +54,10 @@ class _TextInputBase(MaterialWidget):
 
     __abstract = True
 
+    @param.depends('value', watch=True, on_init=True)
+    def _sync_value_input(self):
+        with edit_readonly(self):
+            self.value_input = self.value
 
 
 class TextInput(_TextInputBase):
