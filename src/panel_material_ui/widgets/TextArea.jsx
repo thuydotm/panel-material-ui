@@ -22,14 +22,13 @@ export function render({model}) {
 
   return (
     <TextField
+      fullWidth
       multiline
       color={color}
+      disabled={disabled}
       error={error_state}
       label={label}
-      placeholder={placeholder}
-      variant={variant}
-      value={value}
-      disabled={disabled}
+      maxRows={max_rows}
       onBlur={() => setValue(value_input)}
       onChange={(event) => setValueInput(event.target.value)}
       onKeyDown={(event) => {
@@ -37,8 +36,9 @@ export function render({model}) {
           setValue(value_input)
         }
       }}
-      maxRows={max_rows}
-      fullWidth
+      placeholder={placeholder}
+      value={value_input}
+      variant={variant}
       {...props}
     />
   )
