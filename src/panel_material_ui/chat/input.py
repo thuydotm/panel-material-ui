@@ -21,12 +21,7 @@ class ChatAreaInput(TextAreaInput):
     >>> ChatAreaInput(max_rows=10)
     """
 
-    auto_grow = param.Boolean(
-        default=True,
-        doc="""
-        Whether the text area should automatically grow vertically to
-        accommodate the current text.""",
-    )
+    auto_grow = param.Boolean(default=True)
 
     disabled_enter = param.Boolean(
         default=False,
@@ -43,27 +38,12 @@ class ChatAreaInput(TextAreaInput):
         doc="If True, pressing the Enter key sends the message, if False it is sent by pressing the Ctrl+Enter.",
     )
 
-    rows = param.Integer(default=1, doc="""
-        Number of rows in the text input field.""")
-
-    max_rows = param.Integer(
-        default=10,
-        doc="""
-        When combined with auto_grow this determines the maximum number
-        of rows the input area can grow.""",
-    )
-
-    resizable = param.Selector(
-        default="height",
-        objects=["both", "width", "height", False],
-        doc="""
-        Whether the layout is interactively resizable,
-        and if so in which dimensions: `width`, `height`, or `both`.
-        Can only be set during initialization.""",
-    )
+    max_rows = param.Integer(default=10)
 
     max_length = param.Integer(default=50000, doc="""
         Max count of characters in the input field.""")
+
+    rows = param.Integer(default=1)
 
     _esm = "ChatArea.jsx"
 
