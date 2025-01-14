@@ -12,19 +12,19 @@ export function render({model}) {
 
   return (
     <TextField
-      multiline={model.esm_constants.multiline}
       color={color}
+      disabled={disabled}
       error={error_state}
       label={label}
+      multiline={model.esm_constants.multiline}
       placeholder={placeholder}
       variant={variant}
       value={value}
-      disabled={disabled}
       onBlur={() => setValue(value_input)}
       onChange={(event) => setValueInput(event.target.value)}
       onKeyDown={(event) => {
         if (event.key === "Enter") {
-          model.send_event('enter', event)
+          model.send_event("enter", event)
           setValue(value_input)
         }
       }}
