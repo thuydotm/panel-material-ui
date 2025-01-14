@@ -38,6 +38,11 @@ class ChatAreaInput(TextAreaInput):
         doc="If True, pressing the Enter key sends the message, if False it is sent by pressing the Ctrl+Enter.",
     )
 
+    enter_pressed = param.Event(
+        default=False,
+        doc="If True, pressing the Enter key sends the message, if False it is sent by pressing the Ctrl+Enter.",
+    )
+
     rows = param.Integer(default=1, doc="""
         Number of rows in the text input field.""")
 
@@ -67,6 +72,7 @@ class ChatAreaInput(TextAreaInput):
         Clear value on shift enter key down.
         """
         self.value = msg
+        self.param.trigger('enter_pressed')
         with param.discard_events(self):
             self.value = ""
         self.value_input = ""

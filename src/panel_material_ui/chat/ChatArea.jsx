@@ -50,7 +50,7 @@ export function render({model}) {
       label={label}
       onChange={(event) => setValueInput(event.target.value)}
       onKeyDown={(event) => {
-	if ((event.key === 'Enter') && (enter_sends || event.ctrlKey || event.shiftKey)) {
+	if ((event.key === "Enter") && (enter_sends || event.ctrlKey || event.shiftKey)) {
 	  send()
 	}
       }}
