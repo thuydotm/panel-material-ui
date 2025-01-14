@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import Any
 
 import param
+from panel.models.reactive_html import DOMEvent
+from panel.util import edit_readonly
 from panel.widgets.input import FileInput as _PnFileInput
 
 from ..base import COLORS
@@ -43,6 +45,7 @@ class _TextInputBase(MaterialWidget):
     value_input = param.String(
         default="",
         allow_None=True,
+        readonly=True,
         doc="""
         Initial or entered text value updated on every key press.""",
     )
@@ -50,6 +53,11 @@ class _TextInputBase(MaterialWidget):
     _constants = {"multiline": False}
 
     __abstract = True
+
+    @param.depends('value', watch=True, on_init=True)
+    def _sync_value_input(self):
+        with edit_readonly(self):
+            self.value_input = self.value
 
 
 class TextInput(_TextInputBase):
@@ -65,7 +73,13 @@ class TextInput(_TextInputBase):
     >>> TextInput(name='Name', placeholder='Enter your name here ...')
     """
 
+    enter_pressed = param.Event(doc="""
+        Event when the enter key has been pressed.""")
+
     _esm = "TextField.jsx"
+
+    def _handle_enter(self, event: DOMEvent):
+        self.param.trigger('enter_pressed')
 
 
 class PasswordInput(_TextInputBase):

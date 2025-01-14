@@ -5,7 +5,7 @@ pytest.importorskip('playwright')
 from panel_material_ui.widgets import TextInput, PasswordInput, TextAreaInput, Checkbox, Switch, FileInput, ToggleIcon
 
 from playwright.sync_api import expect
-from tests.util import serve_component
+from tests.util import serve_component, wait_until
 
 pytestmark = pytest.mark.ui
 
@@ -55,7 +55,7 @@ def test_text_area_auto_grow(page):
     input_area.press('Enter')
 
     # 8 rows
-    assert input_area.bounding_box()['height'] == 8 * TEXTAREA_LINE_HEIGHT
+    wait_until(lambda: input_area.bounding_box()['height'] == 8 * TEXTAREA_LINE_HEIGHT, page)
 
 
 def test_text_area_auto_grow_max_rows(page):
@@ -68,8 +68,8 @@ def test_text_area_auto_grow_max_rows(page):
     input_area.press('Enter')
     input_area.press('Enter')
     input_area.press('Enter')
-    # 7 rows
-    assert input_area.bounding_box()['height'] == 7 * TEXTAREA_LINE_HEIGHT
+
+    wait_until(lambda: input_area.bounding_box()['height'] == 7 * TEXTAREA_LINE_HEIGHT, page)
 
 
 def test_text_area_auto_grow_min_rows(page):
@@ -83,7 +83,7 @@ def test_text_area_auto_grow_min_rows(page):
     for _ in range(10):
         input_area.press('Backspace')
 
-    assert input_area.bounding_box()['height'] == 3 * TEXTAREA_LINE_HEIGHT
+    wait_until(lambda: input_area.bounding_box()['height'] == 3 * TEXTAREA_LINE_HEIGHT, page)
 
 
 def test_text_area_auto_grow_shrink_back_on_new_value(page):
