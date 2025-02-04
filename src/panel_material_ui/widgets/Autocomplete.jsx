@@ -52,7 +52,7 @@ export function render({model, el}) {
             setValue(value_input)
           }
         }}
-        />}
+      />}
     />
   )
 }
