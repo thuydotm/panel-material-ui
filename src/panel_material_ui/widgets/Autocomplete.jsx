@@ -6,6 +6,7 @@ export function render({model, el}) {
   const [value, setValue] = model.useState("value")
   const [options] = model.useState("options")
   const [label] = model.useState("label")
+  const [placeholder] = model.useState("placeholder")
   const [restrict] = model.useState("restrict")
   const [variant] = model.useState("variant")
   const [disabled] = model.useState("disabled")
@@ -38,7 +39,7 @@ export function render({model, el}) {
       filterOptions={filt_func}
       variant={variant}
       PopperComponent={CustomPopper}
-      renderInput={(params) => <TextField {...params} variant={variant} label={label} />}
+      renderInput={(params) => <TextField {...params} variant={variant} label={label} placeholder={placeholder}/>}
     />
   )
 }

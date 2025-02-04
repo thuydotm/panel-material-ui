@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import param
-from panel.util import isIn
+from panel.util import edit_readonly, isIn
 from panel.widgets.base import Widget
 from panel.widgets.select import (
     SingleSelectBase as _PnSingleSelectBase,
@@ -54,6 +54,12 @@ class AutocompleteInput(MaterialSingleSelectBase):
         The number of characters a user must type before
         completions are presented.""")
 
+    placeholder = param.String(
+        default="",
+        doc="""
+        Placeholder for empty input field.""",
+    )
+
     restrict = param.Boolean(default=True, doc="""
         Set to False in order to allow users to enter text that is not
         present in the list of completion strings.""")
@@ -64,6 +70,14 @@ class AutocompleteInput(MaterialSingleSelectBase):
         `"starts_with"` means that the user's text must match the start of a
         completion string. Using `"includes"` means that the user's text can
         match any substring of a completion string.""")
+
+    value_input = param.String(
+        default="",
+        allow_None=True,
+        readonly=True,
+        doc="""
+        Initial or entered text value updated on every key press.""",
+    )
 
     variant = param.Selector(objects=["filled", "outlined", "standard"], default="outlined")
 
@@ -91,6 +105,11 @@ class AutocompleteInput(MaterialSingleSelectBase):
         else:
             props = super()._process_param_change(msg)
         return props
+
+    @param.depends('value', watch=True, on_init=True)
+    def _sync_value_input(self):
+        with edit_readonly(self):
+            self.value_input = self.value
 
 
 class Select(MaterialSingleSelectBase):
