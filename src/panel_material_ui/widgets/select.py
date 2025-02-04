@@ -187,12 +187,9 @@ class Select(MaterialSingleSelectBase):
 class RadioGroup(MaterialWidget):
     color = param.Selector(default="primary", objects=COLORS)
 
-    orientation = param.Selector(
-        default="horizontal",
-        objects=["horizontal", "vertical"],
-        doc="""
-        Button group orientation, either 'horizontal' (default) or 'vertical'.""",
-    )
+    inline = param.Boolean(default=False, doc="""
+        Whether the items be arrange vertically (``False``) or
+        horizontally in-line (``True``).""")
 
     _esm = "RadioGroup.jsx"
 
