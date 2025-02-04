@@ -5,7 +5,7 @@ pytest.importorskip('playwright')
 from panel_material_ui.layout import Card, Accordion, Tabs, Paper
 
 from playwright.sync_api import expect
-from tests.util import serve_component
+from panel.tests.util import serve_component
 
 pytestmark = pytest.mark.ui
 
