@@ -130,11 +130,58 @@ class Select(MaterialSingleSelectBase):
     >>> Select(label='Study', options=['Biology', 'Chemistry', 'Physics'])
     """
 
+    disabled_options = param.List(default=[], nested_refs=True, doc="""
+        Optional list of ``options`` that are disabled, i.e. unusable and
+        un-clickable. If ``options`` is a dictionary the list items must be
+        dictionary values.""")
+
     variant = param.Selector(objects=["filled", "outlined", "standard"], default="outlined")
 
     _esm = "Select.jsx"
 
     _rename = {"name": "name"}
+
+    def __init__(self, **params):
+        super().__init__(**params)
+        self._internal_callbacks.extend([
+            self.param.watch(
+                self._validate_disabled_options,
+                ['options', 'disabled_options', 'value']
+            ),
+        ])
+        self._validate_disabled_options()
+
+    def _validate_disabled_options(self, *events):
+        if self.disabled_options and self.disabled_options == self.values:
+            raise ValueError(
+                f'All the options of a {type(self).__name__} '
+                'widget cannot be disabled.'
+            )
+        not_in_opts = [
+            dopts
+            for dopts in self.disabled_options
+            if dopts not in (self.values or [])
+        ]
+        if not_in_opts:
+            raise ValueError(
+                f'Cannot disable non existing options of {type(self).__name__}: {not_in_opts}'
+            )
+        if len(events) == 1:
+            if events[0].name == 'value' and self.value in self.disabled_options:
+                raise ValueError(
+                    f'Cannot set the value of {type(self).__name__} to '
+                    f'{self.value!r} as it is a disabled option.'
+                )
+            elif events[0].name == 'disabled_options' and self.value in self.disabled_options:
+                raise ValueError(
+                    f'Cannot set disabled_options of {type(self).__name__} to a list that '
+                    f'includes the current value {self.value!r}.'
+                )
+        if self.value in self.disabled_options:
+            raise ValueError(
+                f'Cannot initialize {type(self).__name__} with value {self.value!r} '
+                'as it is one of the disabled options.'
+            )
 
 
 class RadioGroup(MaterialWidget):
