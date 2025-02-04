@@ -26,7 +26,7 @@ export function render({model}) {
               key={option}
               value={option}
               label={option}
-              labelPlacement={(inline === "horizontal") ? "bottom" : "right"}
+              labelPlacement={inline ? "bottom" : "right"}
               control={
                 <Radio
                   checked={exclusive ? (value==option) : value.includes(option)}
