@@ -2,7 +2,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup"
 import ToggleButton from "@mui/material/ToggleButton"
 
 export function render({model}) {
-  const [color] = model.useState("color")
+  const [color] = model.useState("button_type")
   const [size] = model.useState("size")
   const [orientation] = model.useState("orientation")
   const [disabled] = model.useState("disabled")

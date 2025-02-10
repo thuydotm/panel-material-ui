@@ -249,7 +249,8 @@ class CheckBoxGroup(RadioGroup, MaterialMultiSelectBase):
 
 
 class ButtonGroup(MaterialWidget):
-    color = param.Selector(default="primary", objects=COLORS)
+
+    button_type = param.Selector(objects=COLORS, default="primary")
 
     disableElevation = param.Boolean(default=False)
 
