@@ -35,10 +35,8 @@ class AutocompleteInput(MaterialSingleSelectBase):
     that provide a compatible API and include the  `Select`,
     `RadioBoxGroup` and `RadioButtonGroup` widgets.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel AutocompleteInput widget [panel.widgets.AutocompleteInput](https://panel.holoviz.org/reference/widgets/AutocompleteInput.html):
-    - Missing features: case_sensitive, min_characters, placeholder, restrict, search_strategy, value_input
-    - Extra features: label, on_event, on_msg, theme, variant
+    Reference to the corresponding Panel AutocompleteInput widget:
+    https://panel.holoviz.org/reference/widgets/AutocompleteInput.html
 
     :Example:
 
@@ -120,10 +118,8 @@ class Select(MaterialSingleSelectBase):
     that provide a compatible API and include the  `AutocompleteInput`,
     `RadioBoxGroup` and `RadioButtonGroup` widgets.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel Select widget [panel.widgets.Select](https://panel.holoviz.org/reference/widgets/Select.html):
-    - Missing features: disabled_options, groups, size
-    - Extra features: label, on_event, on_msg, theme, variant
+    Reference to the corresponding Panel Select widget:
+    https://panel.holoviz.org/reference/widgets/Select.html
 
     :Example:
 
@@ -206,10 +202,8 @@ class RadioBoxGroup(RadioGroup, MaterialSingleSelectBase):
     that provide a compatible API and include the  `AutocompleteInput`,
     `Select` and `RadioButtonGroup` widgets.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel RadioBoxGroup widget [panel.widgets.RadioBoxGroup](https://panel.holoviz.org/reference/widgets/RadioBoxGroup.html):
-    - Missing features: inline
-    - Extra features: color, description, label, on_event, on_msg, orientation, theme
+    Reference to the corresponding Panel RadioBoxGroup widget:
+    https://panel.holoviz.org/reference/widgets/RadioBoxGroup.html
 
     :Example:
 
@@ -231,10 +225,8 @@ class CheckBoxGroup(RadioGroup, MaterialMultiSelectBase):
     It falls into the broad category of multi-option selection widgets that
     provide a compatible API that also include the `CheckButtonGroup` widget.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel CheckBoxGroup widget [panel.widgets.CheckBoxGroup](https://panel.holoviz.org/reference/widgets/CheckBoxGroup.html):
-    - Missing features: inline
-    - Extra features: color, description, label, on_event, on_msg, orientation, theme
+    Reference to the corresponding Panel CheckBoxGroup widget:
+    https://panel.holoviz.org/reference/widgets/CheckBoxGroup.html
 
     :Example:
 
@@ -253,6 +245,10 @@ class ButtonGroup(MaterialWidget):
     button_type = param.Selector(objects=COLORS, default="primary")
 
     disableElevation = param.Boolean(default=False)
+
+    description_delay = param.Integer(default=5000, doc="""
+        Delay (in milliseconds) to display the tooltip after the cursor has
+        hovered over the Button, default is 500ms.""")
 
     exclusive = param.Boolean(default=False)
 
@@ -285,10 +281,8 @@ class RadioButtonGroup(ButtonGroup, MaterialSingleSelectBase):
     that provide a compatible API and include the `AutocompleteInput`, `Select`,
     and `RadioBoxGroup` widgets.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel RadioButtonGroup widget [panel.widgets.RadioButtonGroup](https://panel.holoviz.org/reference/widgets/RadioButtonGroup.html):
-    - Missing features: button_style, button_type, description_delay
-    - Extra features: color, disableElevation, exclusive, fullWidth, label, on_event, on_msg, size, theme, variant
+    Reference to the corresponding Panel RadioButtonGroup widget:
+    https://panel.holoviz.org/reference/widgets/RadioButtonGroup.html
 
     :Example:
 
@@ -310,10 +304,8 @@ class CheckButtonGroup(ButtonGroup, MaterialMultiSelectBase):
     It falls into the broad category of multi-option selection widgets that
     provide a compatible API that also include the `CheckBoxGroup` widget.
 
-    Some missing and extra features (if any) when comparing with the corresponding
-    panel CheckButtonGroup widget [panel.widgets.CheckButtonGroup](https://panel.holoviz.org/reference/widgets/CheckButtonGroup.html):
-    - Missing features: button_style, button_type, description_delay
-    - Extra features: color, disableElevation, exclusive, fullWidth, label, on_event, on_msg, size, theme, variant
+    Reference to the corresponding Panel CheckButtonGroup widget:
+    https://panel.holoviz.org/reference/widgets/CheckButtonGroup.html
 
     :Example:
 
