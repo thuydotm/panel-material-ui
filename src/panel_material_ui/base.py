@@ -171,6 +171,8 @@ class MaterialComponent(ReactComponent):
 
     @classproperty
     def _bundle_css(cls):
+        if not config.autoreload and __version__ == base_version(__version__):
+            return [CDN_DIST.replace('.js', '.css')]
         esm_path = cls._esm_path(compiled=True)
         css_path = esm_path.with_suffix('.css')
         if css_path.is_file():
