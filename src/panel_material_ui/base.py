@@ -3,7 +3,7 @@ from __future__ import annotations
 import inspect
 import pathlib
 import textwrap
-from typing import Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 import param
 from panel.config import config
@@ -12,6 +12,9 @@ from panel.util import base_version, classproperty
 
 from .__version import __version__  # noqa
 from .theme import MaterialDesign
+
+if TYPE_CHECKING:
+    from bokeh.document import Document
 
 COLORS = ["primary", "secondary", "error", "info", "success", "warning"]
 
@@ -197,3 +200,9 @@ class MaterialComponent(ReactComponent):
         elif cls._esm_base is None:
             return None
         return cls._render_esm_base()
+
+    def _get_properties(self, doc: Document | None) -> dict[str, Any]:
+        props = super()._get_properties(doc)
+        if props['esm'] == CDN_DIST:
+            props['bundle'] = 'url'
+        return props
