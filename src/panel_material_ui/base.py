@@ -207,4 +207,5 @@ class MaterialComponent(ReactComponent):
         props = super()._get_properties(doc)
         if props['esm'] == CDN_DIST:
             props['bundle'] = 'url'
+            props['css_bundle'] = CDN_DIST.replace('.js', '.css')
         return props
