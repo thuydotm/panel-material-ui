@@ -35,8 +35,9 @@ class AutocompleteInput(MaterialSingleSelectBase):
     that provide a compatible API and include the  `Select`,
     `RadioBoxGroup` and `RadioButtonGroup` widgets.
 
-    Reference to the corresponding Panel AutocompleteInput widget:
-    https://panel.holoviz.org/reference/widgets/AutocompleteInput.html
+    References:
+    - https://panel.holoviz.org/reference/widgets/AutocompleteInput.html
+    - https://mui.com/material-ui/react-autocomplete/
 
     :Example:
 
@@ -118,8 +119,9 @@ class Select(MaterialSingleSelectBase):
     that provide a compatible API and include the  `AutocompleteInput`,
     `RadioBoxGroup` and `RadioButtonGroup` widgets.
 
-    Reference to the corresponding Panel Select widget:
-    https://panel.holoviz.org/reference/widgets/Select.html
+    References:
+    - https://panel.holoviz.org/reference/widgets/Select.html
+    - https://mui.com/material-ui/react-select/
 
     :Example:
 
@@ -203,8 +205,9 @@ class RadioBoxGroup(RadioGroup, MaterialSingleSelectBase):
     that provide a compatible API and include the  `AutocompleteInput`,
     `Select` and `RadioButtonGroup` widgets.
 
-    Reference to the corresponding Panel RadioBoxGroup widget:
-    https://panel.holoviz.org/reference/widgets/RadioBoxGroup.html
+    References:
+    - https://panel.holoviz.org/reference/widgets/RadioBoxGroup.html
+    - https://mui.com/material-ui/react-radio-button/
 
     :Example:
 
@@ -226,8 +229,9 @@ class CheckBoxGroup(RadioGroup, MaterialMultiSelectBase):
     It falls into the broad category of multi-option selection widgets that
     provide a compatible API that also include the `CheckButtonGroup` widget.
 
-    Reference to the corresponding Panel CheckBoxGroup widget:
-    https://panel.holoviz.org/reference/widgets/CheckBoxGroup.html
+    References:
+    - https://panel.holoviz.org/reference/widgets/CheckBoxGroup.html
+    - https://mui.com/material-ui/react-radio-button/
 
     :Example:
 
@@ -291,8 +295,9 @@ class RadioButtonGroup(ButtonGroup, MaterialSingleSelectBase):
     that provide a compatible API and include the `AutocompleteInput`, `Select`,
     and `RadioBoxGroup` widgets.
 
-    Reference to the corresponding Panel RadioButtonGroup widget:
-    https://panel.holoviz.org/reference/widgets/RadioButtonGroup.html
+    References:
+    - https://panel.holoviz.org/reference/widgets/RadioButtonGroup.html
+    - https://mui.com/material-ui/react-toggle-button/
 
     :Example:
 
@@ -314,8 +319,9 @@ class CheckButtonGroup(ButtonGroup, MaterialMultiSelectBase):
     It falls into the broad category of multi-option selection widgets that
     provide a compatible API that also include the `CheckBoxGroup` widget.
 
-    Reference to the corresponding Panel CheckButtonGroup widget:
-    https://panel.holoviz.org/reference/widgets/CheckButtonGroup.html
+    References:
+    - https://panel.holoviz.org/reference/widgets/CheckButtonGroup.html
+    - https://mui.com/material-ui/react-toggle-button/
 
     :Example:
 
@@ -340,7 +346,9 @@ class MultiChoice(MaterialMultiSelectBase):
     The `MultiChoice` widget provides a much more compact UI than
     `MultiSelect`.
 
-    Reference: https://panel.holoviz.org/reference/widgets/MultiChoice.html
+    References:
+    - https://panel.holoviz.org/reference/widgets/MultiChoice.html
+    - https://mui.com/material-ui/react-select/#multiple-select
 
     :Example:
 
