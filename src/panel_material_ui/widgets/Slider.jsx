@@ -9,6 +9,7 @@ export function render({model}) {
   const [format] = model.useState("format")
   const [label] = model.useState("label")
   const [orientation] = model.useState("orientation")
+  const [show_value] = model.useState("show_value")
   const [start] = model.useState("start")
   const [step] = model.useState("step")
   const [tooltips] = model.useState("tooltips")
@@ -18,16 +19,20 @@ export function render({model}) {
   const [value_label, setValueLabel] = React.useState()
 
   React.useEffect(() => {
-    if (Array.isArray(value)) {
-      let [v1, v2] = value
-      if (format) {
-        [v1, v2] = format.doFormat([v1, v2])
-      }
-      setValueLabel(`${v1} .. ${v2}`)
+    if (show_value) {
+        if (Array.isArray(value)) {
+          let [v1, v2] = value
+          if (format) {
+            [v1, v2] = format.doFormat([v1, v2])
+          }
+          setValueLabel(`${v1} .. ${v2}`)
+        } else {
+          setValueLabel(format ? format.doFormat([value])[0] : value)
+        }
     } else {
-      setValueLabel(format ? format.doFormat([value])[0] : value)
+      setValueLabel()
     }
-  }, [format, value])
+  }, [format, value, show_value])
 
   return (
     <Box sx={{height: "100%"}}>

@@ -18,6 +18,9 @@ class _ContinuousSlider(MaterialWidget):
     format = param.ClassSelector(class_=(str, TickFormatter,), doc="""
         A custom format string or Bokeh TickFormatter.""")
 
+    show_value = param.Boolean(default=True, doc="""
+        Whether to show the widget value as a label or not.""")
+
     step = param.Number(default=1)
 
     orientation = param.Selector(objects=["horizontal", "vertical"], default="horizontal")
