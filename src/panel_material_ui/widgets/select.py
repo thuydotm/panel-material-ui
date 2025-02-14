@@ -216,6 +216,13 @@ class RadioBoxGroup(RadioGroup, MaterialSingleSelectBase):
     ... )
     """
 
+    orientation = param.Selector(
+        default="horizontal",
+        objects=["horizontal", "vertical"],
+        doc="""
+        Button group orientation, either 'horizontal' (default) or 'vertical'.""",
+    )
+
     value = param.String(default=None, allow_None=True)
 
     _constants = {"exclusive": True}
